@@ -16,10 +16,12 @@ public class PlayerController : MonoBehaviour {
 	public float TeleportDistance = 10f;
 	
 	private Rigidbody2D rigibody;
+	private Animator animator;
 	private TeleportDirection teleportDirection;
 
 	private bool _readyToTeleport;
 	private bool canTeleport = true;
+	private bool canMove = true;
 	public bool ReadyToTeleport {
 		set {
 			_readyToTeleport = value;
@@ -57,7 +59,8 @@ public class PlayerController : MonoBehaviour {
 		LevelPiece collideType = collisionType(collision.transform);
 	
 		if (collideType == LevelPiece.Ground) {
-			callOnPlayerOutOfBounds();
+			canMove = false;
+			Invoke("callOnPlayerOutOfBounds", 1.0f);
 		} else if (collideType == LevelPiece.Platform) {
 			canTeleport = true;
 		} else if (collideType == LevelPiece.Finish) {
@@ -66,13 +69,17 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void setMovement () {
-		rigibody.velocity = new Vector2(Speed, rigibody.velocity.y);
+		if (canMove) {
+			transform.Translate(Vector3.right * Speed);
+		}
+
 		if (transform.position.y < LevelController.Instance.GroundHeight) {
 			callOnPlayerOutOfBounds();
 		}
 	}
 
 	private void setReferences () {
+		animator = GetComponent<Animator>();
 		rigibody = GetComponent<Rigidbody2D>();
 	}
 
@@ -89,7 +96,7 @@ public class PlayerController : MonoBehaviour {
 	private void teleport () {
 		if (canTeleport) {
 			canTeleport = false;
-			transform.Translate(Vector3.right * TeleportDistance);
+			transform.Translate(Vector3.right * TeleportDistance/2.5f);
 
 			switch (teleportDirection) {
 				case TeleportDirection.Up:
@@ -124,9 +131,11 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void callOnPlayerOutOfBounds () {
+		LevelPieceController.ReactivateAllCollectibles();
 		if (OnPlayerOutOfBounds != null) {
 			OnPlayerOutOfBounds();
 		}
+		canMove = true;
 	}
 
 	private void callOnVictory () {

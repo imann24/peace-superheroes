@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class InputController : MonoBehaviour {
-	private const string UpKey = "Up";
-	private const string DownKey = "Down";
+	private const string UpKey = "up";
+	private const string DownKey = "down";
 
 
 	// Use this for initialization
@@ -13,7 +13,13 @@ public class InputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (Input.GetKeyDown(UpKey)) {
+			SetTeleportDirection(UpKey);
+		}
+
+		if (Input.GetKeyDown(DownKey)) {
+			SetTeleportDirection(DownKey);
+		}
 	}
 
 	public void SetTeleportDirection (string direction) {

@@ -28,7 +28,7 @@ public class PhraseController : MonoBehaviour {
 
 		addValidPhrases();
 	}
-	
+
 	public string GetRandomPhrase () {
 		return allPhrases[Random.Range(0, allPhrases.Length)];
 	}
