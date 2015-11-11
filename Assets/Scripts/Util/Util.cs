@@ -13,6 +13,10 @@ public class Util {
 		}
 	}
 
+	public static void RemoveSingleton<T> (ref T staticInstance) {
+		staticInstance = default(T);
+	}
+
 	public static string RemoveSpaces (string targetString) {
 		if (string.IsNullOrEmpty(targetString)) {
 			return targetString;

@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
 	private TeleportDirection teleportDirection;
 
 	private bool _readyToTeleport;
-
+	private bool canTeleport = true;
 	public bool ReadyToTeleport {
 		set {
 			_readyToTeleport = value;
@@ -38,8 +38,12 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		setReferences();
+		LevelController.Instance.PlayerStartPosition = transform.position;
 	}
 
+	void OnDestroy () {
+		Util.RemoveSingleton(ref Instance);
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -48,16 +52,20 @@ public class PlayerController : MonoBehaviour {
 
 	void OnCollisionEnter2D (Collision2D collision) {
 		LevelPiece collideType = collisionType(collision.transform);
-
-		Debug.Log(collideType);
-
+	
 		if (collideType == LevelPiece.Ground) {
 			callOnPlayerOutOfBounds();
+		} else if (collideType == LevelPiece.Platform) {
+			canTeleport = true;
 		}
 	}
 
 	private void setMovement () {
 		rigibody.velocity = new Vector2(Speed, rigibody.velocity.y);
+		Debug.Log(rigibody.velocity);
+		if (transform.position.y < LevelController.Instance.GroundHeight) {
+			callOnPlayerOutOfBounds();
+		}
 	}
 
 	private void setReferences () {
@@ -75,20 +83,23 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void teleport () {
-		transform.Translate(Vector3.right * TeleportDistance);
+		if (canTeleport) {
+			canTeleport = false;
+			transform.Translate(Vector3.right * TeleportDistance);
 
-		switch (teleportDirection) {
-			case TeleportDirection.Up:
-				transform.Translate(Vector3.up * TeleportDistance);
-				break;
-			case TeleportDirection.Down:
-				transform.Translate(Vector3.down * TeleportDistance);
-				if (transform.position.y < LevelController.Instance.GroundHeight) {
-					callOnPlayerOutOfBounds();
-				}
-				break;
-			default:
-				break;
+			switch (teleportDirection) {
+				case TeleportDirection.Up:
+					transform.Translate(Vector3.up * TeleportDistance);
+					break;
+				case TeleportDirection.Down:
+					transform.Translate(Vector3.down * TeleportDistance);
+					if (transform.position.y < LevelController.Instance.GroundHeight) {
+						callOnPlayerOutOfBounds();
+					}
+					break;
+				default:
+					break;
+			}
 		}
 	}
 

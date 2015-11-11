@@ -32,11 +32,10 @@ public class CSVReader {
 			
 			for (int x = 0; x < CSVByCell.Length; x++) {
 				if (x < lineByCell.Length) {
-					CSVByCell[x][CSVByLine.Length - y - 1] = lineByCell[x];
+					CSVByCell[x][CSVByLine.Length - y - 1] = Util.RemoveSpaces(lineByCell[x]);
 				}
 			}
 		}
-
 
 		return CSVByCell;
 	}

@@ -11,20 +11,6 @@ public class LevelSpawner : MonoBehaviour {
 
 	private Level level;
 
-	// Use this for initialization
-	void Start () {
-		subscribeEvents();
-	}
-
-	void OnDestroy () {
-		unsubscribeEvents();
-	}
-
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	public void Initialize (Level level) {
 		setLevel(level);
 		SpawnLevel();
@@ -44,6 +30,7 @@ public class LevelSpawner : MonoBehaviour {
 
 	private void destroyCurrentLevel () {
 		for (int i = 0; i < transform.childCount; i++) {
+			Debug.Log(transform.GetChild(i).gameObject);
 			Destroy(transform.GetChild(i).gameObject);
 		}
 	}
@@ -92,13 +79,5 @@ public class LevelSpawner : MonoBehaviour {
 		default:
 			return null;
 		}
-	}
-
-	void subscribeEvents () {
-		PlayerController.OnPlayerOutOfBounds += SpawnLevel;
-	}
-
-	void unsubscribeEvents () {
-		PlayerController.OnPlayerOutOfBounds -= SpawnLevel;
 	}
 }

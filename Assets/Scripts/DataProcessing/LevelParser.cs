@@ -15,6 +15,7 @@ public class LevelParser {
 
 		for (int x = 0; x < levelAsStrings.Length; x++) {
 			for (int y = 0; y < height; y++) {
+
 				level[x,y] = ParsePiece(levelAsStrings[x][y]);
 			}
 		}

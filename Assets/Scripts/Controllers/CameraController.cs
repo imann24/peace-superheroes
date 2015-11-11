@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour {
 		SetPlayer(PlayerController.Instance.GetTransform ());
 	}
 
-	IEnumerator lerpToPlayerPosition (Vector3 playerPosition, float steps = 60, float tolerance = 0.05f) {
+	IEnumerator lerpToPlayerPosition (Vector3 playerPosition, float steps = 30, float tolerance = 0.05f) {
 		float yStep = yDistance(playerPosition)/steps;
 	
 		while (!inRangeOfPlayer(playerPosition)) {

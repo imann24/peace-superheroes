@@ -8,6 +8,7 @@ public class LevelController : MonoBehaviour {
 
 	public GameObject LevelPrefab;
 	public float GroundHeight;
+	public Vector2 PlayerStartPosition;
 
 	private Level [] levels;
 	private GameObject currentLevel;
@@ -23,8 +24,13 @@ public class LevelController : MonoBehaviour {
 	void Start () {
 		initializeFields();
 		spawnLevel();
+		subscribeEvents();
 	}
-	
+
+	void OnDestroy () {
+		unsubscribeEvents();
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
@@ -41,5 +47,17 @@ public class LevelController : MonoBehaviour {
 		LevelSpawner spawner = level.GetComponent<LevelSpawner>();
 
 		spawner.Initialize(levels[levelIndexToLoad]);
+	}
+
+	private void resetPlayerPosition () {
+		PlayerController.Instance.GetTransform().position = PlayerStartPosition;
+	}
+
+	void subscribeEvents () {
+		PlayerController.OnPlayerOutOfBounds += resetPlayerPosition;
+	}
+
+	void unsubscribeEvents () {
+		PlayerController.OnPlayerOutOfBounds -= resetPlayerPosition;
 	}
 }
