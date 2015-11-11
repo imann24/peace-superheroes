@@ -5,6 +5,7 @@ public class InputController : MonoBehaviour {
 	private const string UpKey = "Up";
 	private const string DownKey = "Down";
 
+
 	// Use this for initialization
 	void Start () {
 	
@@ -27,6 +28,14 @@ public class InputController : MonoBehaviour {
 				PlayerController.Instance.SetTeleportDirection(TeleportDirection.None);
 				break;
 		}
+
+	}
+
+	void subscribeReferences () {
+
+	}
+
+	void unsubscribeReferences () {
 
 	}
 }

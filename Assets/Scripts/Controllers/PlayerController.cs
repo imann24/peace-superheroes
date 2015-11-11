@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour {
 	public delegate void PlayerOutOfBoundsAction();
 	public static event PlayerOutOfBoundsAction OnPlayerOutOfBounds;
 
+	public delegate void VictoryAction();
+	public static event VictoryAction OnVictory;
+
 	public static PlayerController Instance;
 	public float Speed = 2.0f;
 	public float TeleportDistance = 10f;
@@ -57,12 +60,13 @@ public class PlayerController : MonoBehaviour {
 			callOnPlayerOutOfBounds();
 		} else if (collideType == LevelPiece.Platform) {
 			canTeleport = true;
+		} else if (collideType == LevelPiece.Finish) {
+			callOnVictory();
 		}
 	}
 
 	private void setMovement () {
 		rigibody.velocity = new Vector2(Speed, rigibody.velocity.y);
-		Debug.Log(rigibody.velocity);
 		if (transform.position.y < LevelController.Instance.GroundHeight) {
 			callOnPlayerOutOfBounds();
 		}
@@ -122,6 +126,12 @@ public class PlayerController : MonoBehaviour {
 	private void callOnPlayerOutOfBounds () {
 		if (OnPlayerOutOfBounds != null) {
 			OnPlayerOutOfBounds();
+		}
+	}
+
+	private void callOnVictory () {
+		if (OnVictory != null) {
+			OnVictory();
 		}
 	}
 }
