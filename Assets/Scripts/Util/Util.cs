@@ -35,7 +35,7 @@ public class Util {
 		return new Vector3 (
 			x ? leader.position.x : follower.position.x,
 			y ? leader.position.y : follower.position.y,
-			z ? leader.position.z : follower.position.y);
+			z ? leader.position.z : follower.position.z);
 	}
 
 
@@ -47,6 +47,7 @@ public class Util {
 		return position;
 
 	}
+	
 
 	//Code from http://stackoverflow.com/questions/1329426/how-do-i-round-to-the-nearest-0-5
 	public static float RoundToNearestFifth (float value) {
@@ -70,6 +71,16 @@ public class Util {
 		}
 
 		return matrix;
+	}
+
+	public static int MatrixHeight<T> (T[][] matrix) {
+		int maxHeight = 0;
+		for (int i = 0; i < matrix.Length; i++) {
+			if (matrix[i].Length > maxHeight) {
+				maxHeight = matrix[i].Length;
+			}
+		}
+		return maxHeight;
 	}
 
 	public static bool WithinRange (int value, int upperBound, int lowerBound =0, bool includeUpperBound = false) {

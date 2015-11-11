@@ -13,20 +13,46 @@ public class CSVReader {
 			return null;
 		}
 
+
+
 		string[] CSVByLine = CSV.text.Split('\n');
-		string[][] CSVByCell = new string[CSVByLine.Length][];
+		int width = determineMaxWidth(
+			CSVByLine,
+			separator);
 
-		for (int i = 0; i < CSVByLine.Length; i++) {
-			CSVByCell[i] = CSVByLine[i].Split(separator);
+		string[][] CSVByCell = new string[width][];
 
-			if (removeSpaces) {
-				for (int j = 0; j < CSVByCell[i].Length; j++) {
-					CSVByCell[i][j] = Util.RemoveSpaces(CSVByCell[i][j]);
+		for (int x = 0; x < CSVByCell.Length; x++) {
+			CSVByCell[x] = new string[CSVByLine.Length];
+		}
+
+		for (int y = 0; y < CSVByLine.Length; y++) {
+			
+			string [] lineByCell = CSVByLine[y].Split(separator);
+			
+			for (int x = 0; x < CSVByCell.Length; x++) {
+				if (x < lineByCell.Length) {
+					CSVByCell[x][CSVByLine.Length - y - 1] = lineByCell[x];
 				}
 			}
 		}
 
+
 		return CSVByCell;
+	}
+
+	// Determines the max width of an array of strings
+	private static int determineMaxWidth (string[] lines, char splitChar = ',') {
+		int max = 0;
+		
+		for (int i = 0; i < lines.Length; i++) {
+			max =
+				max < lines[i].Split(splitChar).Length ?
+					max = lines[i].Split(splitChar).Length :
+					max = max;
+		}
+		
+		return max;
 	}
 
 }
