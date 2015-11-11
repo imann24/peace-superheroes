@@ -12,25 +12,32 @@ public class PhraseController : MonoBehaviour {
 
 	public const string DEFAULT_PHRASE = "collectible";
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		Util.SingletonImplementation(
 			ref Instance,
 			this,
 			gameObject);
 
-		if (correctPhrases != null) {
+		if (CorrectPhrasesDocument != null) {
 			correctPhrases = LineReader.ReadByLine(CorrectPhrasesDocument);
 		}
 
-		if (allPhrases != null) {
+		if (AllPhrasesDocument != null) {
 			allPhrases = LineReader.ReadByLine(AllPhrasesDocument);
 		}
-
 		addValidPhrases();
 	}
 
 	public string GetRandomPhrase () {
 		return allPhrases[Random.Range(0, allPhrases.Length)];
+	}
+
+	public string GetPhrase (int index) {
+		if (index < allPhrases.Length) {
+			return allPhrases[index];
+		} else {
+			return "";
+		}
 	}
 
 	private void addValidPhrases () {

@@ -54,8 +54,14 @@ public class LevelSpawner : MonoBehaviour {
 
 		setParent(piece);
 
-		if (piece == GroundPrefab) {
+		if (type == LevelPiece.Ground) {
 			LevelController.Instance.GroundHeight = piece.transform.position.y;
+		} else if (type == LevelPiece.Collectible) {
+			Debug.Log("Setting this phrase to something");
+			Phrase phraseController = piece.GetComponent<Phrase>();
+			phraseController.Initialize();
+			int index = phraseController.GetIndex();
+			phraseController.SetPhrase(PhraseController.Instance.GetPhrase(index));
 		}
 
 	}
