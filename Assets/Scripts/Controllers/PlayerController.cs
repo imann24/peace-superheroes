@@ -37,13 +37,13 @@ public class PlayerController : MonoBehaviour {
 
 	void Awake () {
 		Util.SingletonImplementation(ref Instance, this, gameObject);
-		OnPlayerSet();
+		callOnPlayerSet();
 	}
 
 	// Use this for initialization
 	void Start () {
 		setReferences();
-		LevelController.Instance.PlayerStartPosition = transform.position;
+//		LevelController.Instance.PlayerStartPosition = transform.position;
 	}
 
 	void OnDestroy () {
@@ -69,13 +69,13 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void setMovement () {
-		if (canMove) {
-			transform.Translate(Vector3.right * Speed);
-		}
+//		if (canMove) {
+//			transform.Translate(Vector3.right * Speed);
+//		}
 
-		if (transform.position.y < LevelController.Instance.GroundHeight) {
-			callOnPlayerOutOfBounds();
-		}
+//		if (transform.position.y < LevelController.Instance.GroundHeight) {
+//			callOnPlayerOutOfBounds();
+//		}
 	}
 
 	private void setReferences () {

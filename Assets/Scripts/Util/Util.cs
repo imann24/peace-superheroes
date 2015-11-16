@@ -51,6 +51,10 @@ public class Util {
 		return position;
 
 	}
+
+	public static void SetPosition (Transform transform, float x, float y, float z) {
+		transform.position = new Vector3(x, y, z);
+	}
 	
 
 	//Code from http://stackoverflow.com/questions/1329426/how-do-i-round-to-the-nearest-0-5
