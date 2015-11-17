@@ -1,5 +1,6 @@
 ﻿public enum GameState {
 	Start,
 	Game,
-	GameWin
+	GameWin,
+	GameLose
 }

@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 	
 	private Rigidbody2D rigibody;
 	private Animator animator;
-	private TeleportDirection teleportDirection;
+	private Direction teleportDirection;
 
 	private bool _readyToTeleport;
 	private bool canTeleport = true;
@@ -87,9 +87,9 @@ public class PlayerController : MonoBehaviour {
 		return transform;
 	}
 
-	public void SetTeleportDirection (TeleportDirection teleportDireciton) {
+	public void SetTeleportDirection (Direction teleportDireciton) {
 		this.teleportDirection = teleportDireciton;
-		ReadyToTeleport = !(this.teleportDirection == TeleportDirection.None);
+		ReadyToTeleport = !(this.teleportDirection == Direction.None);
 
 	}
 
@@ -99,10 +99,10 @@ public class PlayerController : MonoBehaviour {
 			transform.Translate(Vector3.right * TeleportDistance/2.5f);
 
 			switch (teleportDirection) {
-				case TeleportDirection.Up:
+				case Direction.Up:
 					transform.Translate(Vector3.up * TeleportDistance);
 					break;
-				case TeleportDirection.Down:
+				case Direction.Down:
 					transform.Translate(Vector3.down * TeleportDistance);
 					if (transform.position.y < LevelController.Instance.GroundHeight) {
 						callOnPlayerOutOfBounds();

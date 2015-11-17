@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(SpriteRenderer))]
+
 public class PlatformController : MonoBehaviour {
 
 	public float Speed = 0.001f;
@@ -32,8 +34,6 @@ public class PlatformController : MonoBehaviour {
 		// Code from: http://stackoverflow.com/questions/23535304/getting-the-width-of-a-sprite
 		platformWidth = GetComponent<SpriteRenderer>().bounds.size.x;
 		initialX = transform.localPosition.x;
-
-		//platformWidth = transform.lossyScale.x;
 	}
 
 		

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class InputController : MonoBehaviour {
@@ -25,13 +25,13 @@ public class InputController : MonoBehaviour {
 	public void SetTeleportDirection (string direction) {
 		switch(direction) {
 			case UpKey:
-				PlayerController.Instance.SetTeleportDirection(TeleportDirection.Up);
+				PlayerController.Instance.SetTeleportDirection(Direction.Up);
 				break;
 			case DownKey:
-				PlayerController.Instance.SetTeleportDirection(TeleportDirection.Down);
+				PlayerController.Instance.SetTeleportDirection(Direction.Down);
 				break;
 			default:
-				PlayerController.Instance.SetTeleportDirection(TeleportDirection.None);
+				PlayerController.Instance.SetTeleportDirection(Direction.None);
 				break;
 		}
 
