@@ -25,24 +25,23 @@ public class LaneSwitchController : MonoBehaviour {
 
 		switch (direction) {
 			case Direction.Up:
-				if (laneInBounds((int) direction + 1)) {
+				if (laneInBounds(currentLane + 1)) {
 					currentLane++;
 				}
 				break;
 			case Direction.Down:
-				if (laneInBounds((int) direction - 1)) {
+				if (laneInBounds(currentLane - 1)) {
 					currentLane--;
 				}
 				break;
 			default:
 				break;
 		}
-
 		setPlayerPosition();
 	}
 
 
-	void setPlayerPosition (float yOffset = -0.12f) {
+	void setPlayerPosition (float yOffset = -0.15f) {
 		Vector3 lanePoint = SpawnPointController.GetSpawnPosition((SpawnPoint) currentLane);
 		lanePoint.y += yOffset;
 		lanePoint.z = transform.position.z;

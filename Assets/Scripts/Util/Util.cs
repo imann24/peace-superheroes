@@ -4,12 +4,14 @@ using System.Collections;
 
 public class Util {
 
-	public static void SingletonImplementation<T> (ref T staticInstance, T instance, GameObject associatedObject) {
+	public static bool SingletonImplementation<T> (ref T staticInstance, T instance, GameObject associatedObject) {
 		if (staticInstance == null) {
 			UnityEngine.Object.DontDestroyOnLoad(associatedObject);
 			staticInstance = instance;
+			return true;
 		} else {
 			UnityEngine.Object.Destroy(associatedObject);
+			return false;
 		}
 	}
 

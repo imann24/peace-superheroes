@@ -7,9 +7,12 @@ public class NPCSpawnController : MonoBehaviour {
 	public static event NPCEncounterAction OnNPCEncounter;
 
 	public GameObject NPCPrefab;
-	public float SpawnFrequency = 5.0f;
 
+	public float SpawnFrequency = 5.0f;
+	public float MaxSpawnFrequency = 1.0f;
+	public float SpawnFrequencyIncrease = 0.1f;
 	private float timeToAct;
+	private float timer;
 
 	private SpawnPoint [] spawnPoints = {
 		SpawnPoint.HighPlatform,
@@ -82,6 +85,9 @@ public class NPCSpawnController : MonoBehaviour {
 			}
 
 			npc.Emotion = generateEmotion();
+			if (npc.Emotion == Emotion.Calm) {
+				npc.SpawnPhrase();
+			}
 		}
 	}
 
@@ -90,6 +96,7 @@ public class NPCSpawnController : MonoBehaviour {
 		for (int i = 0; i < spawnPools.Length; i++) {
 			spawnPools[i] = new Queue<GameObject>();
 		}
+		Global.Paused = false;
 	}
 
 	void subscribeToNPCEvents (NPCController npc) {
@@ -98,8 +105,13 @@ public class NPCSpawnController : MonoBehaviour {
 	}
 
 	void spawnOnTimer () {
-		if (Time.time > timeToAct) {
+		timer+= Time.deltaTime;
+
+		if (timer > timeToAct) {
 			spawnColumnOfNPCs();
+			SpawnFrequency = Mathf.Clamp(SpawnFrequency - SpawnFrequencyIncrease, 
+			                             MaxSpawnFrequency, 
+			                             float.MaxValue);
 			timeToAct += SpawnFrequency;
 		}
 	}

@@ -4,14 +4,15 @@ using System.Collections;
 [RequireComponent (typeof(SpriteRenderer))]
 
 public class NPCController : MonoBehaviour {
-	private static Color calmColor = Color.green;
-	private static Color madColor = Color.red;
+	public float Speed = 1.0f;
 
 	public delegate void OffscreenAction(GameObject g, SpawnPoint spawnPoint);
 	public event OffscreenAction OnOffscreen;
 
 	public delegate void CollidedWithPlayerAction(Emotion emotion);
 	public event CollidedWithPlayerAction OnCollidedWithPlayer;
+
+	public GameObject PhrasePrefab;
 
 	private SpriteRenderer spriteRenderer;
 
@@ -23,6 +24,8 @@ public class NPCController : MonoBehaviour {
 	private Emotion _emotion;
 
 	private bool _onScreen;
+
+	private GameObject currentPhrase;
 
 	public bool OnScreen {
 		get {
@@ -45,6 +48,10 @@ public class NPCController : MonoBehaviour {
 		set {
 			_emotion = value;
 			setVisualEmotion();
+			if (value == Emotion.Mad) {
+				destroyCurrentPhrase();
+			}
+
 		}
 	}
 
@@ -68,7 +75,7 @@ public class NPCController : MonoBehaviour {
 			StopCoroutine(moveCoroutine);
 		}
 
-		moveCoroutine = lerpPosition(findTargetPoint(), 0.5f);
+		moveCoroutine = lerpPosition(findTargetPoint(), Speed);
 
 		StartCoroutine(moveCoroutine);
 	}
@@ -90,12 +97,20 @@ public class NPCController : MonoBehaviour {
 				OnScreen = false;
 				break;
 			case Tags.PLAYER:
+				bool calmedDown = false;
+				if (Emotion == Emotion.Mad &&
+			    	PhraseCollector.Instance.GetPhraseCount() > 0) {
+					calmedDown = true;
+				}
 				callCollidedWithPlayerEvent();
+				if (calmedDown) {
+					Emotion = Emotion.Calm;
+					setVisualEmotion();
+				}
 				break;
 			default:
 				break;
 		}
-
 
 	}
 
@@ -117,9 +132,9 @@ public class NPCController : MonoBehaviour {
 
 	void setVisualEmotion () {
 		if (_emotion == Emotion.Calm) {
-			transitionToColor(calmColor);
+			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.CalmNPC);
 		} else if (_emotion == Emotion.Mad) {
-			transitionToColor(madColor);
+			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.AngryNPC);
 		}
 	}
 
@@ -127,7 +142,7 @@ public class NPCController : MonoBehaviour {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
-	Vector3 findTargetPoint (float xOffset = -1.0f) {
+	Vector3 findTargetPoint (float xOffset = -5.0f) {
 		Vector3 targetPoint = Camera.main.ScreenToWorldPoint(new Vector3(0, 0));
 		targetPoint.y = transform.position.y;
 		targetPoint.x += xOffset;
@@ -173,6 +188,28 @@ public class NPCController : MonoBehaviour {
 
 	public void SetSpawnPoint (SpawnPoint spawnPoint) {
 		this.spawnPoint = spawnPoint;
+	}
+	
+	public void SpawnPhrase (float xOffset = 0.25f) {
+		destroyCurrentPhrase();
+		GameObject phrase = (GameObject)
+			Instantiate (
+			PhrasePrefab,
+			transform.position,
+			Quaternion.identity);
+		phrase.GetComponent<Phrase>().SetPhrase(
+			PhraseController.Instance.GetRandomPhrase());
+
+		phrase.transform.Translate(Vector3.right * xOffset);
+		phrase.transform.parent = transform;
+
+		currentPhrase = phrase;
+	}
+
+	private void destroyCurrentPhrase () {
+		if (currentPhrase != null) {
+			Destroy(currentPhrase);
+		}
 	}
 
 }

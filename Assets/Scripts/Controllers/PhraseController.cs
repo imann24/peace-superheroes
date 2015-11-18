@@ -11,6 +11,7 @@ public class PhraseController : MonoBehaviour {
 	private string [] allPhrases;
 
 	public const string DEFAULT_PHRASE = "collectible";
+
 	// Use this for initialization
 	void Awake () {
 		Util.SingletonImplementation(

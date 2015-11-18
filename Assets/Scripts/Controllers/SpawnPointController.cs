@@ -21,6 +21,10 @@ public class SpawnPointController : MonoBehaviour {
 		}
 	}
 
+	void OnDestroy () {
+		All.Clear();
+	}
+
 	Vector3 getPositon () {
 		return transform.position;
 	}

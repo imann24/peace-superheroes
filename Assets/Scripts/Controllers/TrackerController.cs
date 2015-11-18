@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class TrackerController : MonoBehaviour {
+
+	public static TrackerController Instance;
+
 	public int startingValue = 0;
 	private Score score;
 	public TrackerBarController trackerBar;
@@ -9,6 +12,10 @@ public class TrackerController : MonoBehaviour {
 
 	public GameObject WinScreen;
 	public GameObject LoseScreen;
+
+	void Awake () {
+		Instance = this;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -24,24 +31,35 @@ public class TrackerController : MonoBehaviour {
 	
 	}
 
+	void OnLevelWasLoaded (int level) {
+		loadScreen(GameState.Game);
+
+	}
+
 	void initialize () {
+		resetScore();
+		subscribeEvents();
+	}
+
+	void resetScore () {
 		score = new Score(startingValue);
 		trackerBar.SetScore(score);
 		phraseCount.SetScore(score);
-		subscribeEvents();
 	}
 
 	void scoreNPCEncounter (Emotion emotion) {
 		switch (emotion) {
-			case Emotion.Calm:
-				score.CollectPhrase();
-				break;
 			case Emotion.Mad:
 				score.AngryEncounter();
 				break;
 			default:
 				break;
 		}
+	}
+
+	void collectPhrase (string phrase) {
+		score.CollectPhrase();
+		PhraseCollector.Instance.CollectPhrase(phrase);
 	}
 
 	void loadScreen (GameState gameState) {
@@ -57,11 +75,12 @@ public class TrackerController : MonoBehaviour {
 
 	void subscribeEvents () {
 		NPCSpawnController.OnNPCEncounter += scoreNPCEncounter;
+		Phrase.OnPhraseCollected += collectPhrase;
 		score.OnGameStateChange += loadScreen;
 	}
 
 	void unsubscribeEvents () {
 		NPCSpawnController.OnNPCEncounter -= scoreNPCEncounter;
-		score.OnGameStateChange -= loadScreen;
+		Phrase.OnPhraseCollected -= collectPhrase;
 	}
 }

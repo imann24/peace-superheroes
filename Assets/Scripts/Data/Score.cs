@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Score {
 
@@ -18,6 +19,8 @@ public class Score {
 
 	private const int LOSE = -5;
 	private const int WIN = 10;
+
+	private List<string> CurrentPhrases = new List<string>();
 
 	int _score;
 	int _phraseCount = 0;
@@ -80,6 +83,7 @@ public class Score {
 		if (PhraseCount > 0) {
 			PhraseCount--;
 			SetScore(_score + 1);
+			PhraseCollector.Instance.UseRandomPhrase();
 		} else {
 			SetScore(_score - 1);
 		}
