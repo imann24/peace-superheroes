@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class SpriteHolder : MonoBehaviour {
 	public Sprite AngryNPC;
 	public Sprite CalmNPC;
+	public Sprite MentorNPC;
 
 	private static Dictionary <Sprites, Sprite> All = new Dictionary<Sprites, Sprite>();
 
@@ -25,6 +26,7 @@ public class SpriteHolder : MonoBehaviour {
 		All.Clear();
 		All.Add(Sprites.AngryNPC, AngryNPC);
 		All.Add(Sprites.CalmNPC, CalmNPC);
+		All.Add(Sprites.MentorNPC, MentorNPC);
 	}
 
 	public static Sprite GetSprite (Sprites sprite) {

@@ -14,6 +14,11 @@ public class NPCSpawnController : MonoBehaviour {
 	private float timeToAct;
 	private float timer;
 
+	private Emotion[] spawnableEmotions = {
+		Emotion.Mad,
+		Emotion.None
+	};
+
 	private SpawnPoint [] spawnPoints = {
 		SpawnPoint.HighPlatform,
 		SpawnPoint.MidPlatform,
@@ -85,7 +90,7 @@ public class NPCSpawnController : MonoBehaviour {
 			}
 
 			npc.Emotion = generateEmotion();
-			if (npc.Emotion == Emotion.Calm) {
+			if (npc.Emotion == Emotion.None) {
 				npc.SpawnPhrase();
 			}
 		}
@@ -127,8 +132,6 @@ public class NPCSpawnController : MonoBehaviour {
 	}
 
 	Emotion generateEmotion () {
-		return (Emotion) (UnityEngine.Random.Range(
-			0, Enum.GetNames(typeof(Emotion)).Length + 1) % 
-			Enum.GetNames(typeof(Emotion)).Length);
+		return spawnableEmotions[UnityEngine.Random.Range(0, spawnableEmotions.Length)];
 	}
 }

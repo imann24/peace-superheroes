@@ -1,4 +1,5 @@
 ﻿public enum Emotion {
 	Mad,
-	Calm
+	Calm,
+	None
 }

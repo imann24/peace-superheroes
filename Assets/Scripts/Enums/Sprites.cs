@@ -1,4 +1,5 @@
 ﻿public enum Sprites {
 	AngryNPC,
-	CalmNPC
+	CalmNPC,
+	MentorNPC
 }

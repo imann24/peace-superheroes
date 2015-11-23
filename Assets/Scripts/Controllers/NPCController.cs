@@ -135,6 +135,8 @@ public class NPCController : MonoBehaviour {
 			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.CalmNPC);
 		} else if (_emotion == Emotion.Mad) {
 			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.AngryNPC);
+		} else {
+			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.MentorNPC);
 		}
 	}
 
