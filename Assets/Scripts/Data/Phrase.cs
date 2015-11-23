@@ -10,6 +10,7 @@ public class Phrase : MonoBehaviour {
 	public static Dictionary<int, Phrase> All = new Dictionary<int, Phrase>();
 	public static int Count = 0;
 
+	public GameObject OrbPrefab;
 	public string phrase;
 
 	public TextMesh visualPhrase;
@@ -27,6 +28,7 @@ public class Phrase : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D collider) {
 		if (collider.tag == Tags.PLAYER) {
 			callPhraseCollectedEvent();
+			collect();
 			Destroy(gameObject);
 		}
 	}
@@ -68,6 +70,12 @@ public class Phrase : MonoBehaviour {
 		if (OnPhraseCollected != null) {
 			OnPhraseCollected(this.phrase);
 		}
+	}
+
+	private void collect () {
+		Instantiate(OrbPrefab,
+		            transform.position,
+		            Quaternion.identity);
 	}
 
 }
