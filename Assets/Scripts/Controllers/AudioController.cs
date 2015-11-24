@@ -19,6 +19,14 @@ public class AudioController : MonoBehaviour {
 			ToggleMute(value);
 		}
 	}
+
+	// ---------------------------------------------
+	// SFX:
+	public AudioClip Teleport;
+	public AudioClip PhraseCorrect;
+	public AudioClip PhraseIncorrect;
+
+	// ---------------------------------------------
 	void Awake () {
 		// Singleton implementation
 		Util.SingletonImplementation(ref Instance, this, gameObject);
@@ -104,12 +112,33 @@ public class AudioController : MonoBehaviour {
 		return allAudioSources[currentChannel].clip;
 	}
 
-	void SubscribeEvents () {
+	private void playTeleportSFX (int lane) {
+		if (allAudioSources[currentChannel].isPlaying && currentClip() == Teleport) {
+			return;
+		}
+		SetChannel(Channel.SFX1);
+		SetClip(Teleport);
+		PlayCurrentClip();
+	}
 
+	private void playCorrectPhraseSFX () {
+		SetChannel(Channel.SFX1);
+		SetClip(PhraseCorrect);
+		PlayCurrentClip();
+	}
+
+	private void playIncorrectPhraseSFX () {
+		SetChannel(Channel.SFX1);
+		SetClip(PhraseIncorrect);
+		PlayCurrentClip();
+	}
+
+	void SubscribeEvents () {
+		LaneSwitchController.OnSwitchToLane += playTeleportSFX;
 	}
 
 	void UnsubscribeEvents () {
-
+		LaneSwitchController.OnSwitchToLane -= playTeleportSFX;
 	}
 
 }

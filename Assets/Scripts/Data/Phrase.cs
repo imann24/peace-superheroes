@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ public class Phrase : MonoBehaviour {
 	public GameObject OrbPrefab;
 	public string phrase;
 
-	public TextMesh visualPhrase;
+	public Text VisualPhrase;
 
 	private int index;
 
@@ -48,7 +49,7 @@ public class Phrase : MonoBehaviour {
 	}
 
 	public void SetVisualPhrase () {
-		visualPhrase.text = this.phrase;
+		VisualPhrase.text = this.phrase;
 	}
 
 	public int GetIndex () {

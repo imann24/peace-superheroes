@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: e87b62dda11ad41ef858def1da8798b0
-timeCreated: 1447131294
+timeCreated: 1448346740
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Music: {instanceID: 0}
+  - SFX1: {instanceID: 0}
+  - SFX2: {instanceID: 0}
+  - Teleport: {fileID: 8300000, guid: 4516b26520fde4990bcf6cc058d0e0ac, type: 3}
+  - PhraseCorrect: {fileID: 8300000, guid: 675fdf4d7b0104146bef92460c0c2b62, type: 3}
+  - PhraseIncorrect: {fileID: 8300000, guid: 9118a5796c6d34911b64034e73feff7a, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

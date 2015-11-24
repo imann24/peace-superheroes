@@ -57,7 +57,7 @@ public class TrackerController : MonoBehaviour {
 		}
 	}
 
-	void collectPhrase (string phrase) {
+	public void collectPhrase (string phrase) {
 		score.CollectPhrase();
 		PhraseCollector.Instance.CollectPhrase(phrase);
 	}

@@ -5,13 +5,23 @@ using System.Collections;
 [RequireComponent (typeof(Text))]
 
 public class PhraseCountController : MonoBehaviour {
+	public static PhraseCountController Instance;
+
 	Score score;
 	Text text;
 	const string PHRASE_TEXT = "Phrases: ";
 
+	void Awake () {
+		Instance = this;
+	}
+
 	// Use this for initialization
 	void Start () {
 		setReferences();
+	}
+
+	void OnDestroy () {
+		Instance = null;
 	}
 	
 	// Update is called once per frame

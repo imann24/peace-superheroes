@@ -3,6 +3,9 @@ using System;
 using System.Collections;
 
 public class LaneSwitchController : MonoBehaviour {
+	public delegate void SwitchToLaneAction (int lane);
+	public static event SwitchToLaneAction OnSwitchToLane;
+
 	int currentLane = 1;
 
 	void Start () {
@@ -31,11 +34,13 @@ public class LaneSwitchController : MonoBehaviour {
 			case Direction.Up:
 				if (laneInBounds(currentLane + 1)) {
 					currentLane++;
+					callOnSwitchToLane();
 				}
 				break;
 			case Direction.Down:
 				if (laneInBounds(currentLane - 1)) {
 					currentLane--;
+					callOnSwitchToLane();
 				}
 				break;
 			default:
@@ -64,5 +69,11 @@ public class LaneSwitchController : MonoBehaviour {
 
 	void unsubscribeEvents () {
 		SwipeController.OnSwipe -= changeLane;
+	}
+
+	void callOnSwitchToLane () {
+		if (OnSwitchToLane != null) {
+			OnSwitchToLane(currentLane);
+		}
 	}
 }

@@ -7,6 +7,7 @@ public class DisplayPhrases : MonoBehaviour {
 
 	public GameObject PhrasePrefab;
 	public GameObject Player;
+	public GameObject PhraseApprover;
 
 	private Vector2 phraseOffset = new Vector2 (250, -25);
 	private Queue<GameObject> spawnPool = new Queue<GameObject>();
@@ -29,7 +30,11 @@ public class DisplayPhrases : MonoBehaviour {
 
 	}
 
-	public void SpawnPhrase (GameObject objecToTrack, float scale = 0.25f) {
+	public void DisplayPhraseApprover () {
+		PhraseApprover.SetActive(true);
+	}
+
+	public void SpawnPhrase (GameObject objecToTrack, string phraseText, float scale = 0.25f) {
 		GameObject phrase;
 		bool newlySpawned = false;
 		if (spawnPool.Count == 0) {
@@ -42,7 +47,6 @@ public class DisplayPhrases : MonoBehaviour {
 		}
 
 		TrackUIWithGameObject tracker = phrase.GetComponent<TrackUIWithGameObject>();
-
 		if (tracker == null) {
 			Debug.LogError ("Tracker script not attached");
 			return;
@@ -55,6 +59,15 @@ public class DisplayPhrases : MonoBehaviour {
 		tracker.SetParentRect(gameObject);
 		tracker.SetObjecToTrack(objecToTrack);
 		tracker.SetOffset(phraseOffset);
+
+		Phrase phraseController = tracker.GetComponent<Phrase>();
+
+		if (phraseController == null) {
+			Debug.LogError ("Phrase script not attached");
+			return;
+		}
+
+		phraseController.SetPhrase(phraseText);
 	}
 
 	void handlePhraseNotNeeded (GameObject uneededPhrase) {

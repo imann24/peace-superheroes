@@ -95,7 +95,7 @@ public class NPCSpawnController : MonoBehaviour {
 			npc.Emotion = generateEmotion();
 			if (npc.Emotion == Emotion.None) {
 				//npc.SpawnPhrase();
-				DisplayPhrases.Instance.SpawnPhrase(npcObject, 1.0f);
+				DisplayPhrases.Instance.SpawnPhrase(npcObject, PhraseController.Instance.GetRandomPhrase(), 1.0f);
 			}
 		}
 	}
