@@ -10,6 +10,7 @@ public class TrackUIWithGameObject : MonoBehaviour {
 	public delegate void FinishedTrackingAction(GameObject uiObject);
 	public event FinishedTrackingAction OnTrackingFinished;
 
+	public float OffsetFraciton = 0.5f;
 	public Vector2 Offset;
 	public GameObject ObjecToTrack;
 	public GameObject ParentCanvas;
@@ -48,6 +49,7 @@ public class TrackUIWithGameObject : MonoBehaviour {
 
 	void setReferences () {
 		rectTransform = GetComponent<RectTransform>();
+		Offset.y = Screen.height * OffsetFraciton;
 		SetParentRect();
 	}
 

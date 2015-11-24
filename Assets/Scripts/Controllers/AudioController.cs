@@ -14,9 +14,16 @@ public class AudioController : MonoBehaviour {
 	private Channel currentChannel;
 
 	private Dictionary<Channel, AudioSource> allAudioSources;
+
+	private bool _muted;
 	public bool Muted {
 		set {
 			ToggleMute(value);
+			_muted = !value;
+		}
+
+		get {
+			return _muted;
 		}
 	}
 
@@ -43,6 +50,9 @@ public class AudioController : MonoBehaviour {
 	}
 
 	public void PlayCurrentClip () {
+		if (Muted) {
+			return;
+		}
 		allAudioSources[currentChannel].Play();
 	}
 
@@ -92,9 +102,10 @@ public class AudioController : MonoBehaviour {
 	}
 
 
-	public void ToggleMute (bool muted) {
+	public void ToggleMute (bool unmuted) {
+		Debug.Log("Muted " + !unmuted);
 		for (int i = 0; i < Enum.GetNames(typeof(Channel)).Length; i++) {
-			allAudioSources[(Channel) i].mute = muted;
+			allAudioSources[(Channel) i].mute = !unmuted;
 		}
 	}
 
