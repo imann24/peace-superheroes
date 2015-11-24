@@ -49,7 +49,7 @@ public class TrackUIWithGameObject : MonoBehaviour {
 
 	void setReferences () {
 		rectTransform = GetComponent<RectTransform>();
-		Offset.y = Screen.height * OffsetFraciton;
+		Offset.y = (float)Screen.height/(float)Screen.width * OffsetFraciton;
 		SetParentRect();
 	}
 

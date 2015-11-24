@@ -19,6 +19,13 @@ public class NPCSpawnController : MonoBehaviour {
 		Emotion.None
 	};
 
+	private int [] spawnWeights = {
+		2,
+		1
+	};
+
+	private Emotion[] emotionSelection;
+
 	private SpawnPoint [] spawnPoints = {
 		SpawnPoint.HighPlatform,
 		SpawnPoint.MidPlatform,
@@ -31,6 +38,7 @@ public class NPCSpawnController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		initialize();
+		initializeEmotionSelection();
 	}
 	
 	// Update is called once per frame
@@ -135,6 +143,24 @@ public class NPCSpawnController : MonoBehaviour {
 	}
 
 	Emotion generateEmotion () {
-		return spawnableEmotions[UnityEngine.Random.Range(0, spawnableEmotions.Length)];
+		return emotionSelection[UnityEngine.Random.Range(0, emotionSelection.Length)];
+	}
+
+	private void initializeEmotionSelection () {
+		int length = 0;
+
+		for (int i = 0; i < spawnWeights.Length; i++) {
+			length += spawnWeights[i];
+		}
+
+		emotionSelection = new Emotion[length];
+
+		int index = 0;
+
+		for (int i = 0; i < spawnWeights.Length; i++) {
+			for (int j = 0; j < spawnWeights[i]; j++) {
+				emotionSelection[index++] = spawnableEmotions[i];
+			}
+		}
 	}
 }
