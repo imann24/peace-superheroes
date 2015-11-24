@@ -47,7 +47,7 @@ public class TrackerController : MonoBehaviour {
 		phraseCount.SetScore(score);
 	}
 
-	void scoreNPCEncounter (Emotion emotion) {
+	void scoreNPCEncounter (Emotion emotion, string phrase = null) {
 		switch (emotion) {
 			case Emotion.Mad:
 				score.AngryEncounter();
@@ -60,6 +60,15 @@ public class TrackerController : MonoBehaviour {
 	public void collectPhrase (string phrase) {
 		score.CollectPhrase();
 		PhraseCollector.Instance.CollectPhrase(phrase);
+	}
+
+	public int PhraseCount () {
+		return score.PhraseCount;
+	}
+
+	public void UsePhraseCorrectly () {
+		score.SetScore(score.GetScore() + 1);
+		score.PhraseCount--;
 	}
 
 	void loadScreen (GameState gameState) {

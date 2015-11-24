@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PhraseAnimation : MonoBehaviour {
@@ -8,7 +9,7 @@ public class PhraseAnimation : MonoBehaviour {
 	private Vector2 defaultPosition;
 	private Vector2 defaultScale;
 	private Vector2 offsetPosition;
-
+	private Image image;
 	// Use this for initialization
 	void Start () {
 		setReferences();
@@ -28,11 +29,13 @@ public class PhraseAnimation : MonoBehaviour {
 	}
 
 	private void resetPositionAndScale () {
+		image.enabled = true;
 		transform.position = defaultPosition;
 		transform.localScale = defaultScale;
 	}
 
 	private void setReferences () {
+		image = GetComponent<Image>();
 		defaultPosition = transform.position;
 		defaultScale = transform.localScale;
 		offsetPosition = new Vector2 (Offset, Offset);
@@ -86,6 +89,8 @@ public class PhraseAnimation : MonoBehaviour {
 		if (direction == Direction.Up) {
 			callOnPhraseCollectedEvent();
 		}
+
+		image.enabled = false;
 
 	}
 }

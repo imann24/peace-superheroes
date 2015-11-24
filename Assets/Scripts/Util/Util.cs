@@ -125,4 +125,10 @@ public class Util {
 	public static Color ChangeColorOpacty (Color color, float opacity) {
 		return new Color(color.r, color.g, color.b, opacity);
 	}
+
+	public static void DeleteAllChildren (Transform transform) {
+		for (int i = 0; i < transform.childCount; i++) {
+			UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
+		}
+	}
 }

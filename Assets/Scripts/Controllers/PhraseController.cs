@@ -40,7 +40,7 @@ public class PhraseController : MonoBehaviour {
 			return "";
 		}
 	}
-
+	
 	private void addValidPhrases () {
 		PhraseValidator.AddCorrectPhrase(DEFAULT_PHRASE);
 

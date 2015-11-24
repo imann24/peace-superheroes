@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 public class NPCSpawnController : MonoBehaviour {
-	public delegate void NPCEncounterAction (Emotion emotion);
+	public delegate void NPCEncounterAction (Emotion emotion, string phrase);
 	public static event NPCEncounterAction OnNPCEncounter;
 
 	public GameObject NPCPrefab;
@@ -94,7 +94,6 @@ public class NPCSpawnController : MonoBehaviour {
 
 			npc.Emotion = generateEmotion();
 			if (npc.Emotion == Emotion.None) {
-				//npc.SpawnPhrase();
 				DisplayPhrases.Instance.SpawnPhrase(npcObject, PhraseController.Instance.GetRandomPhrase(), 1.0f);
 			}
 		}
@@ -129,9 +128,9 @@ public class NPCSpawnController : MonoBehaviour {
 		spawnPools[(int) spawnPoint].Enqueue(npc);
 	}
 
-	void callNPCEncounterEvent (Emotion emotion) {
+	void callNPCEncounterEvent (Emotion emotion, string phrase) {
 		if (OnNPCEncounter != null) {
-			OnNPCEncounter(emotion);
+			OnNPCEncounter(emotion, phrase);
 		}
 	}
 

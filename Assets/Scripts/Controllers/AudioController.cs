@@ -133,12 +133,22 @@ public class AudioController : MonoBehaviour {
 		PlayCurrentClip();
 	}
 
+	private void playPhraseSelectionSFX (bool approved) {
+		if (approved) {
+			playCorrectPhraseSFX();
+		} else {
+			playIncorrectPhraseSFX();
+		}
+	}
+
 	void SubscribeEvents () {
 		LaneSwitchController.OnSwitchToLane += playTeleportSFX;
+		PhraseApprover.OnPhraseChoice += playPhraseSelectionSFX;
 	}
 
 	void UnsubscribeEvents () {
 		LaneSwitchController.OnSwitchToLane -= playTeleportSFX;
+		PhraseApprover.OnPhraseChoice -= playPhraseSelectionSFX;
 	}
 
 }

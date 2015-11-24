@@ -80,11 +80,7 @@ public class Score {
 	}
 
 	public void AngryEncounter () {
-		if (PhraseCount > 0) {
-			PhraseCount--;
-			SetScore(_score + 1);
-			PhraseCollector.Instance.UseRandomPhrase();
-		} else {
+		if (PhraseCollector.Instance.GetPhraseCount() == 0) {
 			SetScore(_score - 1);
 		}
 	}

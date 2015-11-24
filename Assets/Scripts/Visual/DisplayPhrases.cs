@@ -8,12 +8,14 @@ public class DisplayPhrases : MonoBehaviour {
 	public GameObject PhrasePrefab;
 	public GameObject Player;
 	public GameObject PhraseApprover;
+	public GameObject PhraseSelector;
 
 	private Vector2 phraseOffset = new Vector2 (250, -25);
 	private Queue<GameObject> spawnPool = new Queue<GameObject>();
 
 	void Awake () {
 		Instance = this;
+		subscribeEvents();
 	}
 
 	// Use this for initialization
@@ -22,6 +24,7 @@ public class DisplayPhrases : MonoBehaviour {
 
 
 	void OnDestroy () {
+		unsubscribeEvents();
 		Instance = this;
 	}
 
@@ -30,8 +33,17 @@ public class DisplayPhrases : MonoBehaviour {
 
 	}
 
-	public void DisplayPhraseApprover () {
+	public void DisplayPhraseApprover (string phrase) {
 		PhraseApprover.SetActive(true);
+		PhraseApprover.GetComponent<PhraseApprover>().SetPhrase(phrase);
+	}
+
+	public void DisplayPhraseSelector (string conflictPhrase = "This is a conflict we're having") {
+		PhraseSelector.SetActive(true);
+
+		PhraseSelector controller = this.PhraseSelector.GetComponent<PhraseSelector>();
+		controller.SetConflictPhrase(conflictPhrase);
+		controller.SpawnPhrases(PhraseCollector.Instance.GetAllCollectedPhrases());
 	}
 
 	public void SpawnPhrase (GameObject objecToTrack, string phraseText, float scale = 0.25f) {
@@ -68,9 +80,37 @@ public class DisplayPhrases : MonoBehaviour {
 		}
 
 		phraseController.SetPhrase(phraseText);
+
+		NPCController npc = objecToTrack.GetComponent<NPCController>();
+
+		if (npc == null) {
+			return;
+		}
+
+		npc.Phrase = phraseText;
 	}
 
 	void handlePhraseNotNeeded (GameObject uneededPhrase) {
 		spawnPool.Enqueue(uneededPhrase);
 	}
+
+	void handleNPCEncounter (Emotion npcEmotion, string phrase) {
+		if (npcEmotion == Emotion.None) {
+			DisplayPhraseApprover(phrase);
+			MovementController.Instance.Paused = true;
+		} else if (npcEmotion == Emotion.Mad &&
+		           TrackerController.Instance.PhraseCount() > 0){
+			DisplayPhraseSelector();
+			MovementController.Instance.Paused = true;
+		}
+	}
+
+	void subscribeEvents () {
+		NPCSpawnController.OnNPCEncounter += handleNPCEncounter;
+	}
+
+	void unsubscribeEvents () {
+		NPCSpawnController.OnNPCEncounter -= handleNPCEncounter;
+	}
+
 }

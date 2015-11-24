@@ -9,7 +9,7 @@ public class NPCController : MonoBehaviour {
 	public delegate void OffscreenAction(GameObject g, SpawnPoint spawnPoint);
 	public event OffscreenAction OnOffscreen;
 
-	public delegate void CollidedWithPlayerAction(Emotion emotion);
+	public delegate void CollidedWithPlayerAction(Emotion emotion, string phrase);
 	public event CollidedWithPlayerAction OnCollidedWithPlayer;
 
 	public GameObject PhrasePrefab;
@@ -26,6 +26,18 @@ public class NPCController : MonoBehaviour {
 	private bool _onScreen;
 
 	private GameObject currentPhrase;
+
+	private string _phrase;
+
+	public string Phrase {
+		get {
+			return _phrase;
+		}
+
+		set {
+			_phrase = value;
+		}
+	}
 
 	public bool OnScreen {
 		get {
@@ -101,7 +113,7 @@ public class NPCController : MonoBehaviour {
 				if (Emotion == Emotion.Mad &&
 			    	PhraseCollector.Instance.GetPhraseCount() > 0) {
 					calmedDown = true;
-				}
+				} 
 				callCollidedWithPlayerEvent();
 				if (calmedDown) {
 					Emotion = Emotion.Calm;
@@ -126,7 +138,7 @@ public class NPCController : MonoBehaviour {
 
 	void callCollidedWithPlayerEvent () {
 		if (OnCollidedWithPlayer != null) {
-			OnCollidedWithPlayer(_emotion);
+			OnCollidedWithPlayer(_emotion, _phrase);
 		}
 	}
 

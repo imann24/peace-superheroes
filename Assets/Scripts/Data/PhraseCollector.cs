@@ -43,4 +43,12 @@ public class PhraseCollector : MonoBehaviour {
 	public int GetPhraseCount () {
 		return collectionOfPhrases.Count;
 	}
+
+	public void UsePhrase (string phrase) {
+		collectionOfPhrases.Remove(phrase);
+	}
+
+	public string [] GetAllCollectedPhrases () {
+		return collectionOfPhrases.ToArray();
+	}
 }
