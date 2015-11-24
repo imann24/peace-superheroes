@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -13,7 +14,11 @@ public class AudioController : MonoBehaviour {
 	private Channel currentChannel;
 
 	private Dictionary<Channel, AudioSource> allAudioSources;
-
+	public bool Muted {
+		set {
+			ToggleMute(value);
+		}
+	}
 	void Awake () {
 		// Singleton implementation
 		Util.SingletonImplementation(ref Instance, this, gameObject);
@@ -76,6 +81,13 @@ public class AudioController : MonoBehaviour {
 		    
 		PlayCurrentClip();
 
+	}
+
+
+	public void ToggleMute (bool muted) {
+		for (int i = 0; i < Enum.GetNames(typeof(Channel)).Length; i++) {
+			allAudioSources[(Channel) i].mute = muted;
+		}
 	}
 
 	private void toggleMuteMusic (bool muted) {

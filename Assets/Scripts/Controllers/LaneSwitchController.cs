@@ -14,6 +14,10 @@ public class LaneSwitchController : MonoBehaviour {
 	}
 
 	void Update () {
+		if (MovementController.Instance.Paused) {
+			return;
+		}
+
 		if (Input.GetKeyDown(KeyCode.UpArrow)) {
 			changeLane(Direction.Up);
 		} else if (Input.GetKeyDown(KeyCode.DownArrow)) {

@@ -69,7 +69,7 @@ public class TrackerController : MonoBehaviour {
 		if (gameState == GameState.GameLose ||
 		    gameState == GameState.GameWin) {
 
-			Global.Paused = true;
+			MovementController.Instance.Paused = true;
 		}
 	}
 

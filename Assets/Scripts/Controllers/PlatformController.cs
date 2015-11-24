@@ -17,6 +17,10 @@ public class PlatformController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (MovementController.Instance.Paused) {
+			return;
+		}
+
 		platformMovement -= Speed;
 
 

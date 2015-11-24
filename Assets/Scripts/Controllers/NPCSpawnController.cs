@@ -35,7 +35,7 @@ public class NPCSpawnController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!Global.Paused) {
+		if (!MovementController.Instance.Paused) {
 			spawnOnTimer();
 		}
 	}
@@ -78,20 +78,24 @@ public class NPCSpawnController : MonoBehaviour {
 		for (int i = 0; i < spawnPools.Length; i++) {
 			SpawnPoint spawnPoint = (SpawnPoint) i;
 			NPCController npc;
+			GameObject npcObject;
 
 			if (spawnPools[i].Count > 0) {
-				npc = spawnNPCFromPool(spawnPoint).GetComponent<NPCController>();
+				npcObject = spawnNPCFromPool(spawnPoint);
+				npc = npcObject.GetComponent<NPCController>();
 				setNPCStartPosition(
 					npc, 
 					spawnPoint
 					);
 			} else {
-				npc = spawnNPC (spawnPoint).GetComponent<NPCController>();
+				npcObject = spawnNPC (spawnPoint);
+				npc = npcObject.GetComponent<NPCController>();
 			}
 
 			npc.Emotion = generateEmotion();
 			if (npc.Emotion == Emotion.None) {
-				npc.SpawnPhrase();
+				//npc.SpawnPhrase();
+				DisplayPhrases.Instance.SpawnPhrase(npcObject, 1.0f);
 			}
 		}
 	}
@@ -101,7 +105,7 @@ public class NPCSpawnController : MonoBehaviour {
 		for (int i = 0; i < spawnPools.Length; i++) {
 			spawnPools[i] = new Queue<GameObject>();
 		}
-		Global.Paused = false;
+		MovementController.Instance.Paused = false;
 	}
 
 	void subscribeToNPCEvents (NPCController npc) {

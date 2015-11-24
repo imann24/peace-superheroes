@@ -157,6 +157,11 @@ public class NPCController : MonoBehaviour {
 		float time = 0;
 
 		while (time < Global.DONE_TIME) {
+			if (MovementController.Instance.Paused) {
+				yield return new WaitForEndOfFrame();
+				continue;
+			}
+
 			transform.position = 
 				Vector3.Lerp(
 					startPosition,
@@ -166,7 +171,7 @@ public class NPCController : MonoBehaviour {
 			time += Time.deltaTime * speed;
 			yield return new WaitForEndOfFrame();
 		}
-
+		OnScreen = false;
 	}
 
 	// Lerps to the specified color

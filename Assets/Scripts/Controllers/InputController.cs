@@ -13,6 +13,10 @@ public class InputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (MovementController.Instance.Paused) {
+			return;
+		}
+
 		if (Input.GetKeyDown(UpKey)) {
 			SetTeleportDirection(UpKey);
 		}

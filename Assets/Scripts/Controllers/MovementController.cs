@@ -2,16 +2,22 @@
 using System.Collections;
 
 public class MovementController : MonoBehaviour {
+	public delegate void GameStateChangeAction (GameState newState);
+	public static event GameStateChangeAction OnGameStateChanged;
 
-	//public static event 
 	public static MovementController Instance;
-	private bool _paused;
+	private bool _paused = false;
 	public bool Paused {
 		get {
 			return _paused;
 		}
 
 		set {
+			if (_paused != value) {
+				callGameStateChangeEvent (value ?
+				                          GameState.GamePaused:
+				                          GameState.Game);
+			}
 			_paused = value;
 
 		}
@@ -24,7 +30,6 @@ public class MovementController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
 	}
 
 	void OnDestroy () {
@@ -34,5 +39,15 @@ public class MovementController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	void callGameStateChangeEvent (GameState newState) {
+		if (OnGameStateChanged != null) {
+			OnGameStateChanged(newState);
+		}
+	}
+
+	public void TogglePause (bool paused) {
+		Paused = paused;
 	}
 }
