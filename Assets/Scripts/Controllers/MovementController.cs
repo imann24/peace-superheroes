@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class MovementController : MonoBehaviour {
+
 	//public static event 
 	public static MovementController Instance;
 	private bool _paused;

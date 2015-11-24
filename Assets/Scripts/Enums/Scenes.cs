@@ -1,3 +1,6 @@
 ﻿public enum Scenes {
-	Prototype
+	Start,
+	Tutorial,
+	Prototype,
+	Credits
 }
