@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ad35d85ab8e204c11b78c4661d123b3f
-timeCreated: 1448842135
+timeCreated: 1448911831
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -53,10 +53,10 @@ TextureImporter:
     - name: ReallyAngryCharacter_0
       rect:
         serializedVersion: 2
-        x: 683
-        y: 1263
-        width: 923
-        height: 1216
+        x: 43
+        y: 130
+        width: 1201
+        height: 1214
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
