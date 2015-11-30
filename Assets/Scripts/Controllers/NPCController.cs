@@ -106,7 +106,7 @@ public class NPCController : MonoBehaviour {
 
 		switch (collider.gameObject.tag) {
 			case Tags.OFFSCREEN_TAG:
-				OnScreen = false;
+				//OnScreen = false;
 				break;
 			case Tags.PLAYER:
 				bool calmedDown = false;

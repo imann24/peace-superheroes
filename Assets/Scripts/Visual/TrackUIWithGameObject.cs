@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(CanvasGroup))]
 
 public class TrackUIWithGameObject : MonoBehaviour {
 	public delegate void FunctionToSubscribe(GameObject g, SpawnPoint spawnPoint);
@@ -17,9 +18,14 @@ public class TrackUIWithGameObject : MonoBehaviour {
 
 	private RectTransform rectTransform;
 	private RectTransform canvasRect;
+	private CanvasGroup canvasGroup;
+
+	void Awake () {
+		setReferences();
+	}
 	// Use this for initialization
 	void Start () {
-		setReferences();
+	
 	}
 	
 	// Update is called once per frame
@@ -51,6 +57,7 @@ public class TrackUIWithGameObject : MonoBehaviour {
 		rectTransform = GetComponent<RectTransform>();
 		Offset.y = (float)Screen.height/(float)Screen.width * OffsetFraciton;
 		SetParentRect();
+		canvasGroup = GetComponent<CanvasGroup>();
 	}
 
 	public void SetParentRect (GameObject parentCanvas = null) {
@@ -70,16 +77,23 @@ public class TrackUIWithGameObject : MonoBehaviour {
 		if (npc != null) {
 			npc.OnOffscreen += (GameObject g, SpawnPoint spawnPoint) => callFinishedTrackingEvent();
 		}
+
+		TogglePhraseVisible(true);
 	}
 
 	public void SetOffset (Vector2 offset) {
 		this.Offset = offset;
 	}
 
+	public void TogglePhraseVisible (bool visible) {
+		canvasGroup.alpha = visible ? 1.0f : 0.0f;
+	}
+
 	private void callFinishedTrackingEvent () {
 		if (OnTrackingFinished != null) {
 			OnTrackingFinished(gameObject);
 			ObjecToTrack = null;
+			TogglePhraseVisible(false);
 		}
 	}
 }
