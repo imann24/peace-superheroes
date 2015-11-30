@@ -50,7 +50,7 @@ public class LaneSwitchController : MonoBehaviour {
 	}
 
 
-	void setPlayerPosition (float yOffset = -0.135f) {
+	void setPlayerPosition (float yOffset = -0.150f) {
 		Vector3 lanePoint = SpawnPointController.GetSpawnPosition((SpawnPoint) currentLane);
 		lanePoint.y += yOffset;
 		lanePoint.z = transform.position.z;
