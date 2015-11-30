@@ -13,20 +13,12 @@ public class PhraseCollector : MonoBehaviour {
 				this,
 				gameObject
 			);
-	}
-
-	// Use this for initialization
-	void Start () {
-	
+		subscribeReferences();
 	}
 
 	void OnDestroy () {
-//		Util.RemoveSingleton(ref Instance);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		Util.RemoveSingleton(ref Instance);
+		unsubscribeReferences();
 	}
 
 	public void CollectPhrase (string phrase) {
@@ -50,5 +42,17 @@ public class PhraseCollector : MonoBehaviour {
 
 	public string [] GetAllCollectedPhrases () {
 		return collectionOfPhrases.ToArray();
+	}
+
+	public void DiscardAllPhrases () {
+			collectionOfPhrases.Clear();
+	}
+
+	private void subscribeReferences () {
+		TrackerController.OnGameEnd += DiscardAllPhrases;
+	}
+
+	private void unsubscribeReferences () {
+		TrackerController.OnGameEnd -= DiscardAllPhrases;
 	}
 }

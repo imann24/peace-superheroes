@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class TrackerController : MonoBehaviour {
+	public delegate void GameEndAction();
+	public static event GameEndAction OnGameEnd;
 
 	public static TrackerController Instance;
 
@@ -77,7 +79,7 @@ public class TrackerController : MonoBehaviour {
 
 		if (gameState == GameState.GameLose ||
 		    gameState == GameState.GameWin) {
-
+			callGameEndEvent();
 			MovementController.Instance.Paused = true;
 		}
 	}
@@ -91,5 +93,11 @@ public class TrackerController : MonoBehaviour {
 	void unsubscribeEvents () {
 		NPCSpawnController.OnNPCEncounter -= scoreNPCEncounter;
 		Phrase.OnPhraseCollected -= collectPhrase;
+	}
+
+	void callGameEndEvent () {
+		if (OnGameEnd != null) {
+			OnGameEnd();
+		}
 	}
 }

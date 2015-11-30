@@ -71,7 +71,6 @@ public class DisplayPhrases : MonoBehaviour {
 		tracker.SetParentRect(gameObject);
 		tracker.SetObjecToTrack(objecToTrack);
 		tracker.SetOffset(phraseOffset);
-
 		Phrase phraseController = tracker.GetComponent<Phrase>();
 
 		if (phraseController == null) {
@@ -84,6 +83,7 @@ public class DisplayPhrases : MonoBehaviour {
 		NPCController npc = objecToTrack.GetComponent<NPCController>();
 
 		if (npc == null) {
+			Debug.LogError("NPCController not attached to NPC");
 			return;
 		}
 

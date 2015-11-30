@@ -7,7 +7,7 @@ public class NPCController : MonoBehaviour {
 	public float Speed = 1.0f;
 
 	public delegate void OffscreenAction(GameObject g, SpawnPoint spawnPoint);
-	public event OffscreenAction OnOffscreen;
+	public OffscreenAction OnOffscreen;
 
 	public delegate void CollidedWithPlayerAction(Emotion emotion, string phrase);
 	public event CollidedWithPlayerAction OnCollidedWithPlayer;

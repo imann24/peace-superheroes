@@ -6,8 +6,8 @@ using System.Collections;
 [RequireComponent(typeof(RectTransform))]
 
 public class TrackUIWithGameObject : MonoBehaviour {
-	public delegate void FunctionToSubscribe();
-	public delegate void FinishedTrackingAction(GameObject uiObject);
+	public delegate void FunctionToSubscribe(GameObject g, SpawnPoint spawnPoint);
+	public delegate void FinishedTrackingAction(GameObject g);
 	public event FinishedTrackingAction OnTrackingFinished;
 
 	public float OffsetFraciton = 0.5f;
@@ -66,8 +66,7 @@ public class TrackUIWithGameObject : MonoBehaviour {
 	public void SetObjecToTrack (GameObject objectToTrack) {
 		this.ObjecToTrack = objectToTrack;
 
-		NPCController npc = GetComponent<NPCController>();
-
+		NPCController npc = objectToTrack.GetComponent<NPCController>();
 		if (npc != null) {
 			npc.OnOffscreen += (GameObject g, SpawnPoint spawnPoint) => callFinishedTrackingEvent();
 		}
@@ -77,13 +76,10 @@ public class TrackUIWithGameObject : MonoBehaviour {
 		this.Offset = offset;
 	}
 
-	public void SubscribeEvent (FunctionToSubscribe function) {
-		function += callFinishedTrackingEvent;
-	}
-
 	private void callFinishedTrackingEvent () {
 		if (OnTrackingFinished != null) {
 			OnTrackingFinished(gameObject);
+			ObjecToTrack = null;
 		}
 	}
 }
