@@ -117,8 +117,11 @@ public class NPCController : MonoBehaviour {
 				callCollidedWithPlayerEvent();
 				if (calmedDown) {
 					Emotion = Emotion.Calm;
-					setVisualEmotion();
+				} else if (Emotion == Emotion.Mad) {
+					Emotion = Emotion.VeryMad;
 				}
+
+				setVisualEmotion();
 				break;
 			default:
 				break;
@@ -147,6 +150,8 @@ public class NPCController : MonoBehaviour {
 			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.CalmNPC);
 		} else if (_emotion == Emotion.Mad) {
 			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.AngryNPC);
+		} else if (_emotion == Emotion.VeryMad) {
+			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.AngrierNPC);
 		} else {
 			spriteRenderer.sprite = SpriteHolder.GetSprite(Sprites.MentorNPC);
 		}

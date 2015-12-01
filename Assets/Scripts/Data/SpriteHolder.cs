@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class SpriteHolder : MonoBehaviour {
 	public Sprite AngryNPC;
+	public Sprite AngrierNPC;
 	public Sprite CalmNPC;
 	public Sprite MentorNPC;
 
@@ -25,6 +26,7 @@ public class SpriteHolder : MonoBehaviour {
 	void initialize () {
 		All.Clear();
 		All.Add(Sprites.AngryNPC, AngryNPC);
+		All.Add(Sprites.AngrierNPC, AngrierNPC);
 		All.Add(Sprites.CalmNPC, CalmNPC);
 		All.Add(Sprites.MentorNPC, MentorNPC);
 	}

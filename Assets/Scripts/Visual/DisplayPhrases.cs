@@ -11,6 +11,7 @@ public class DisplayPhrases : MonoBehaviour {
 	public GameObject PhraseSelector;
 
 	private Vector2 phraseOffset = new Vector2 (250, -25);
+	private Vector2 offscreenSpawnPoint = new Vector2 (-100, -100);
 	private Queue<GameObject> spawnPool = new Queue<GameObject>();
 
 	void Awake () {
@@ -50,7 +51,9 @@ public class DisplayPhrases : MonoBehaviour {
 		GameObject phrase;
 		bool newlySpawned = false;
 		if (spawnPool.Count == 0) {
-			phrase = (GameObject) Instantiate(PhrasePrefab);
+			phrase = (GameObject) Instantiate(PhrasePrefab,
+			                                  offscreenSpawnPoint,
+			                                  Quaternion.identity);
 			phrase.transform.SetParent(transform);
 			phrase.transform.localScale *= scale;
 			newlySpawned = true;

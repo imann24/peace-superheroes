@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PhraseSelector : MonoBehaviour {
+	public static event PhraseApprover.PhraseChoiceAction OnPhraseChoice;
+
 	public static PhraseSelector Instance;
 
 	public GameObject StoredPhrasePrefab;
@@ -30,6 +32,7 @@ public class PhraseSelector : MonoBehaviour {
 	}
 
 	public void CloseSelector () {
+		callPhraseChosenEvent(true);
 		gameObject.SetActive(false);
 		MovementController.Instance.Paused = false;
 	}
@@ -69,6 +72,12 @@ public class PhraseSelector : MonoBehaviour {
 
 	private void setReferences () {
 		rectTransform = GetComponent<RectTransform>();
+	}
+
+	private void callPhraseChosenEvent (bool phraseApproved) {
+		if (OnPhraseChoice != null) {
+			OnPhraseChoice(phraseApproved);
+		}
 	}
 
 }

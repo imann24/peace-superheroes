@@ -103,7 +103,6 @@ public class AudioController : MonoBehaviour {
 
 
 	public void ToggleMute (bool unmuted) {
-		Debug.Log("Muted " + !unmuted);
 		for (int i = 0; i < Enum.GetNames(typeof(Channel)).Length; i++) {
 			allAudioSources[(Channel) i].mute = !unmuted;
 		}
@@ -155,11 +154,13 @@ public class AudioController : MonoBehaviour {
 	void SubscribeEvents () {
 		LaneSwitchController.OnSwitchToLane += playTeleportSFX;
 		PhraseApprover.OnPhraseChoice += playPhraseSelectionSFX;
+		PhraseSelector.OnPhraseChoice += playPhraseSelectionSFX;
 	}
 
 	void UnsubscribeEvents () {
 		LaneSwitchController.OnSwitchToLane -= playTeleportSFX;
 		PhraseApprover.OnPhraseChoice -= playPhraseSelectionSFX;
+		PhraseSelector.OnPhraseChoice -= playPhraseSelectionSFX;
 	}
 
 }

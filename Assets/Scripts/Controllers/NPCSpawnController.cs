@@ -9,7 +9,7 @@ public class NPCSpawnController : MonoBehaviour {
 	public GameObject NPCPrefab;
 
 	public float SpawnFrequency = 5.0f;
-	public float MaxSpawnFrequency = 1.0f;
+	public float MaxSpawnFrequency = 3.0f;
 	public float SpawnFrequencyIncrease = 0.1f;
 	private float timeToAct;
 	private float timer;

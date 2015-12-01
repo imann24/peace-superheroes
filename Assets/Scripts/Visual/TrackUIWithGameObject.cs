@@ -75,7 +75,7 @@ public class TrackUIWithGameObject : MonoBehaviour {
 
 		NPCController npc = objectToTrack.GetComponent<NPCController>();
 		if (npc != null) {
-			npc.OnOffscreen += (GameObject g, SpawnPoint spawnPoint) => callFinishedTrackingEvent();
+			npc.OnOffscreen += (GameObject g, SpawnPoint spawnPoint) => callFinishedTrackingEvent(g);
 		}
 
 		TogglePhraseVisible(true);
@@ -89,11 +89,13 @@ public class TrackUIWithGameObject : MonoBehaviour {
 		canvasGroup.alpha = visible ? 1.0f : 0.0f;
 	}
 
-	private void callFinishedTrackingEvent () {
+	private void callFinishedTrackingEvent (GameObject source) {
 		if (OnTrackingFinished != null) {
-			OnTrackingFinished(gameObject);
-			ObjecToTrack = null;
-			TogglePhraseVisible(false);
+			if (ObjecToTrack == source) {
+				OnTrackingFinished(gameObject);
+				ObjecToTrack = null;
+				TogglePhraseVisible(false);
+			}
 		}
 	}
 }

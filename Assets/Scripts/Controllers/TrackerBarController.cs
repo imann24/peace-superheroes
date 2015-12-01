@@ -10,7 +10,9 @@ public class TrackerBarController : MonoBehaviour {
 
 	Color calmColor = Color.green;
 	Color madColor = Color.red;
-	
+
+	private IEnumerator barLengthChangeCoroutine;
+
 	// Use this for initialization
 	void Awake () {
 		setReferences();
@@ -26,12 +28,39 @@ public class TrackerBarController : MonoBehaviour {
 	}
 
 	void setBarLength (float scoreFraction) {
-		image.fillAmount = scoreFraction;
+		startBarLerpCoroutine(scoreFraction);
 	}
 
 	public void SetScore (Score score) {
 		this.score = score;
 		score.OnScoreChange += setBarLength;
 		setBarLength(score.GetScoreFraction());
+	}
+
+	void stopCurrentBarLerpCoroutine () {
+		if (barLengthChangeCoroutine != null) {
+			StopCoroutine(barLengthChangeCoroutine);
+		}
+	}
+
+	void startBarLerpCoroutine (float targetLength) {
+		stopCurrentBarLerpCoroutine();
+
+		barLengthChangeCoroutine = LerpBarLength(targetLength);
+
+		StartCoroutine(barLengthChangeCoroutine);
+	}
+
+	IEnumerator LerpBarLength (float targetLength, float maxTime = Global.DONE_TIME) {
+		float startLength = image.fillAmount;
+		float timer = 0;
+
+		while (timer < maxTime) {
+			image.fillAmount = Mathf.Lerp(startLength,
+			                             targetLength,
+			                              timer);
+			timer += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
 	}
 }
