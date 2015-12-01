@@ -13,6 +13,8 @@ public class NPCSpawnController : MonoBehaviour {
 	public float SpawnFrequencyIncrease = 0.1f;
 	private float timeToAct;
 	private float timer;
+	private int angryNPCSSpawnCountSinceMentorNPC = 3;
+	private int maxAngryNPCSpawnConsecutively = 3;
 
 	private Emotion[] spawnableEmotions = {
 		Emotion.Mad,
@@ -143,7 +145,18 @@ public class NPCSpawnController : MonoBehaviour {
 	}
 
 	Emotion generateEmotion () {
-		return emotionSelection[UnityEngine.Random.Range(0, emotionSelection.Length)];
+		Emotion emotion = emotionSelection[UnityEngine.Random.Range(0, emotionSelection.Length)];
+
+		if (emotion == Emotion.Mad) {
+			angryNPCSSpawnCountSinceMentorNPC++;
+		}
+
+		if (angryNPCSSpawnCountSinceMentorNPC > maxAngryNPCSpawnConsecutively) {
+			emotion = Emotion.None;
+			angryNPCSSpawnCountSinceMentorNPC = 0;
+		}
+
+		return emotion;
 	}
 
 	private void initializeEmotionSelection () {
