@@ -4,6 +4,7 @@ using System.Collections;
 [RequireComponent (typeof(Animator))]
 
 public class AnimationController : MonoBehaviour {
+	public string CelebrationAnimationTrigger = "Celebrate";
 	Animator animator;
 	// Use this for initialization
 	void Start () {
@@ -18,15 +19,18 @@ public class AnimationController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
 	void subscribeEvents () {
 		MovementController.OnGameStateChanged += toggleAnimation;
+		PhraseApprover.OnPhraseChoice += handlePhraseSelection;
+		PhraseSelector.OnPhraseChoice += handlePhraseSelection;
 	}
 
 	void unsubscribeEvents () {
 		MovementController.OnGameStateChanged -= toggleAnimation;
+		PhraseApprover.OnPhraseChoice -= handlePhraseSelection;
+		PhraseSelector.OnPhraseChoice -= handlePhraseSelection;
 	}
 
 	void toggleAnimation (GameState newState) {
@@ -39,5 +43,15 @@ public class AnimationController : MonoBehaviour {
 
 	void setReferences () {
 		animator = GetComponent<Animator>();
+	}
+
+	void handlePhraseSelection (bool phraseApproved) {
+		if (phraseApproved) {
+			playCelebrationAnimation();
+		}
+	}
+
+	void playCelebrationAnimation () {
+		animator.SetTrigger(CelebrationAnimationTrigger);
 	}
 }
