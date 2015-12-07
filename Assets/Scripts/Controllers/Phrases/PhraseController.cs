@@ -66,6 +66,10 @@ public class PhraseController : MonoBehaviour {
 		}
 	}
 
+	public Quality ScorePhrase (string response, string conflict) {
+		return phraseTable.GetRating(response, conflict);
+	}
+
 	private void addValidPhrases () {
 		PhraseValidator.AddCorrectPhrase(DEFAULT_PHRASE);
 

@@ -217,7 +217,7 @@ public class NPCController : MonoBehaviour {
 	}
 
 	public void SetConflictPhrase (string phrase) {
-		Phrase = Phrase;
+		Phrase = phrase;
 	}
 
 	public void SpawnPhrase (float xOffset = 0.25f) {

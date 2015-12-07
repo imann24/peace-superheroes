@@ -106,7 +106,9 @@ public class NPCSpawnController : MonoBehaviour {
 			if (npc.Emotion == Emotion.None) {
 				DisplayPhrases.Instance.SpawnPhrase(npcObject, PhraseController.Instance.GetRandomPhrase(), 1.0f);
 			} else if (npc.Emotion == Emotion.Mad) {
-				npc.SetConflictPhrase(PhraseController.Instance.GetRandomConflictPhrase());
+				string phrase = PhraseController.Instance.GetRandomConflictPhrase();
+				Debug.Log("The conflict phrase: " + phrase);
+				npc.SetConflictPhrase(phrase);
 			}
 		}
 	}

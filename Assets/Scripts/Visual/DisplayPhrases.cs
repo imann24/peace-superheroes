@@ -103,7 +103,8 @@ public class DisplayPhrases : MonoBehaviour {
 			MovementController.Instance.Paused = true;
 		} else if (npcEmotion == Emotion.Mad &&
 		           TrackerController.Instance.PhraseCount() > 0){
-			DisplayPhraseSelector();
+			DisplayPhraseSelector(phrase);
+			Debug.Log("The conflict is: " + phrase);
 			MovementController.Instance.Paused = true;
 		}
 	}

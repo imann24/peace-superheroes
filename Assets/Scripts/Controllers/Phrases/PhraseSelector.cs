@@ -8,6 +8,7 @@ public class PhraseSelector : MonoBehaviour {
 	public static PhraseSelector Instance;
 
 	public GameObject StoredPhrasePrefab;
+	public GameObject FeedbackCanvas;
 	public Transform PhraseHolder;
 	public Text ConflictPhrase;
 	public float cellHeight = 200;
@@ -35,6 +36,7 @@ public class PhraseSelector : MonoBehaviour {
 		callPhraseChosenEvent(true);
 		gameObject.SetActive(false);
 		MovementController.Instance.Paused = false;
+		activateFeedback("This is the feedback you're getting");
 	}
 
 	public void SetConflictPhrase (string phrase) {
@@ -49,6 +51,11 @@ public class PhraseSelector : MonoBehaviour {
 		PhraseHolder.GetComponent<RectTransform>().sizeDelta = new Vector2 (
 			PhraseHolder.GetComponent<RectTransform>().sizeDelta.x,
 			cellHeight * phrases.Length);
+	}
+
+	private void activateFeedback (string feedback) {
+		FeedbackCanvas.SetActive(true);
+		PhraseFeedback.Instance.ActivateFeedback(feedback);
 	}
 
 	private GameObject SpawnPhrase () {
