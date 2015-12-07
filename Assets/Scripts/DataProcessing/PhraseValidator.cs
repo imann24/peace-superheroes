@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 public class PhraseValidator {
-	private const string GREAT_PHRASE_FEEDBACK = "That was an excellent choice";
-	private const string GOOD_PHRASE_FEEDBACK = "That phrase worked";
-	private const string BAD_PHRASE_FEEDBACK = "That was a poor choice of phrases";
+	private const string GREAT_PHRASE_FEEDBACK = "That's exactly what I needed to hear!";
+	private const string GOOD_PHRASE_FEEDBACK = "Thank you. That helps, I guess";
+	private const string BAD_PHRASE_FEEDBACK = "Why would you say that?!";
 
 	private const int GREAT_PHRASE_POINTS = 2;
 	private const int GOOD_PHRASE_POINTS = 1;
