@@ -7,7 +7,7 @@ public class PhraseController : MonoBehaviour, System.IComparable<PhraseControll
 	public static PhraseController Instance;
 
 	public delegate string PhraseGenerationAction();
-
+	
 	public TextAsset CorrectPhrasesDocument;
 	public TextAsset AllPhrasesDocument;
 	public TextAsset PhraseRatingsDocument;
@@ -69,6 +69,14 @@ public class PhraseController : MonoBehaviour, System.IComparable<PhraseControll
 		}
 	}
 
+	public string GetConflictPhrase (int index) {
+		return phraseTable.GetConflicts()[index];
+	}
+
+	public string GetResponsePhrase (int index) {
+		return phraseTable.GetResponses()[index];
+	}
+
 	public Quality ScorePhrase (string response, string conflict) {
 		return phraseTable.GetRating(response, conflict);
 	}
@@ -76,7 +84,7 @@ public class PhraseController : MonoBehaviour, System.IComparable<PhraseControll
 	public int CompareTo (PhraseController other) {
 		return other.ID == this.ID? 0 : -1;
 	}
-
+	
 	private void addValidPhrases () {
 		PhraseValidator.AddCorrectPhrase(DEFAULT_PHRASE);
 

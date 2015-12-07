@@ -15,6 +15,7 @@ public class PhraseSelector : MonoBehaviour {
 	public float cellHeight = 200;
 	RectTransform rectTransform;
 
+	private NPCController npc;
 
 	void Awake () {
 		Instance = this;
@@ -42,6 +43,14 @@ public class PhraseSelector : MonoBehaviour {
 		Quality quality = PhraseController.Instance.ScorePhrase(response, ConflictPhrase.text);
 		callPhraseChosenEvent(quality);
 		string feedback = PhraseValidator.GetFeedback(quality);
+
+		if (npc != null) {
+			if (quality == Quality.Bad) {
+				npc.Emotion = Emotion.VeryMad;
+			} else {
+				npc.Emotion = Emotion.Calm;
+			}
+		}
 		CloseSelector(feedback);
 	}
 
@@ -74,6 +83,10 @@ public class PhraseSelector : MonoBehaviour {
 		Canvas.ForceUpdateCanvases();
 		scrollRect.velocity = new Vector2 (0, -1000);
 		Canvas.ForceUpdateCanvases();
+	}
+
+	public void SetNPC (NPCController npc) {
+		this.npc = npc;
 	}
 
 	private void activateFeedback (string feedback) {

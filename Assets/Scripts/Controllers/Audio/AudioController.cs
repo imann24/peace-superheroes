@@ -15,6 +15,8 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 
 	private Dictionary<Channel, AudioSource> allAudioSources;
 
+	private bool suppressOnLoad = false;
+
 	private bool _muted;
 	public bool Muted {
 		set {
@@ -52,13 +54,19 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 	void Awake () {
 		// Singleton implementation
 		Util.SingletonImplementation(ref Instance, this, gameObject);
+
+		if (Instance != this) {
+			suppressOnLoad = true;
+		}
 	}
 
 	// Use this for initialization
 	void Start () {
+		if (suppressOnLoad) {
+			return;
+		}
 		allAudioSources = CreateAudioSourceDictionary();
 		SubscribeEvents();
-
 		OnLevelWasLoaded(Application.loadedLevel);
 	}
 
@@ -67,6 +75,10 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 	}
 
 	void OnLevelWasLoaded (int level) {
+		if (suppressOnLoad) {
+			return;
+		}
+
 		SetMusic((Scenes) level);
 		if ((Scenes) level == Scenes.Prototype) {
 			setPersistentGameSFX();
@@ -100,7 +112,11 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 
 	public void SetClip (AudioClip clip) {
 		if (clip != null) {
-			allAudioSources[currentChannel].clip = clip;
+			try {
+				allAudioSources[currentChannel].clip = clip;
+			} catch {
+				Debug.LogWarning("Debug audio error");
+			}
 		}
 	}
 
@@ -123,6 +139,11 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 	public void SetMusic (Scenes scene) {
 		SetChannel(Channel.Music);
 
+		if (currentClip() == GameMusic &&
+		   	allAudioSources[currentChannel].isPlaying) {
+			return;
+		}
+
 		SetClip(GameMusic);
 		    
 		ToggleLoopCurrentClip(true);
@@ -136,6 +157,8 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 		for (int i = 0; i < Enum.GetNames(typeof(Channel)).Length; i++) {
 			allAudioSources[(Channel) i].mute = !unmuted;
 		}
+
+		_muted = !unmuted;
 	}
 
 	public int CompareTo (AudioController other) {
@@ -223,8 +246,10 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 	}
 
 	private void handleGameStateChange (GameState state) {
-		SetChannel(Channel.SFX2);
-		ToggleMuteCurrentClip(state == GameState.Game);
+		if (!Muted) {
+			SetChannel(Channel.SFX2);
+			ToggleMuteCurrentClip(state == GameState.Game);
+		}
 	}
 
 	void SubscribeEvents () {

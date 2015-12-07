@@ -3,14 +3,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 public class NPCSpawnController : MonoBehaviour {
-	public delegate void NPCEncounterAction (Emotion emotion, string phrase);
+	public delegate void NPCEncounterAction (Emotion emotion, string phrase, NPCController npc);
 	public static event NPCEncounterAction OnNPCEncounter;
+
+	public static NPCSpawnController Instance;
 
 	public GameObject NPCPrefab;
 
 	public float SpawnFrequency = 5.0f;
 	public float MaxSpawnFrequency = 3.0f;
 	public float SpawnFrequencyIncrease = 0.1f;
+	private bool spawning = true;
 	private float timeToAct;
 	private float timer;
 	private int angryNPCSSpawnCountSinceMentorNPC = 3;
@@ -36,18 +39,30 @@ public class NPCSpawnController : MonoBehaviour {
 
 	private Queue<GameObject> [] spawnPools = 
 		new Queue<GameObject> [Enum.GetNames(typeof(SpawnPoint)).Length];
-	
+
+	void Awake () {
+		Instance = this;
+	}
+
 	// Use this for initialization
 	void Start () {
 		initialize();
 		initializeEmotionSelection();
 	}
-	
+
+	void OnDestroy () {
+		Instance = null;
+	}
+
 	// Update is called once per frame
 	void Update () {
-		if (!MovementController.Instance.Paused) {
+		if (!MovementController.Instance.Paused && spawning) {
 			spawnOnTimer();
 		}
+	}
+
+	public void ToggleSpawning (bool spawning) {
+		this.spawning = spawning;
 	}
 
 	GameObject spawnNPC (SpawnPoint spawnPoint) {
@@ -147,9 +162,9 @@ public class NPCSpawnController : MonoBehaviour {
 		spawnPools[(int) spawnPoint].Enqueue(npc);
 	}
 
-	void callNPCEncounterEvent (Emotion emotion, string phrase) {
+	void callNPCEncounterEvent (Emotion emotion, string phrase, NPCController npc) {
 		if (OnNPCEncounter != null) {
-			OnNPCEncounter(emotion, phrase);
+			OnNPCEncounter(emotion, phrase, npc);
 		}
 	}
 

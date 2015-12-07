@@ -39,12 +39,13 @@ public class DisplayPhrases : MonoBehaviour {
 		PhraseApprover.GetComponent<PhraseApprover>().SetPhrase(phrase);
 	}
 
-	public void DisplayPhraseSelector (string conflictPhrase = "This is a conflict we're having") {
+	public void DisplayPhraseSelector (string conflictPhrase = "This is a conflict we're having", NPCController npc = null) {
 		PhraseSelector.SetActive(true);
 
 		PhraseSelector controller = this.PhraseSelector.GetComponent<PhraseSelector>();
 		controller.SetConflictPhrase(conflictPhrase);
 		controller.SpawnPhrases(PhraseCollector.Instance.GetAllCollectedPhrases());
+		controller.SetNPC(npc);
 	}
 
 	public void SpawnPhrase (GameObject objecToTrack, string phraseText, float scale = 0.25f) {
@@ -97,7 +98,7 @@ public class DisplayPhrases : MonoBehaviour {
 		spawnPool.Enqueue(uneededPhrase);
 	}
 
-	void handleNPCEncounter (Emotion npcEmotion, string phrase) {
+	void handleNPCEncounter (Emotion npcEmotion, string phrase, NPCController npc) {
 		if (npcEmotion == Emotion.None) {
 			if (PhraseValidator.CanAcceptPhrase(phrase)) {
 				DisplayPhraseApprover(phrase);
@@ -108,10 +109,11 @@ public class DisplayPhrases : MonoBehaviour {
 			}
 		} else if (npcEmotion == Emotion.Mad) {
 		    if (TrackerController.Instance.PhraseCount() > 0){
-				DisplayPhraseSelector(phrase);
+				DisplayPhraseSelector(phrase, npc);
 				MovementController.Instance.Paused = true;
 			} else {
 				TrackerController.Instance.AngryEncounterWithoutPhrase();
+				npc.Emotion = Emotion.VeryMad;
 			}
 		}
 	}

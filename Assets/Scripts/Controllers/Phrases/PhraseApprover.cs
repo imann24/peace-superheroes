@@ -9,6 +9,7 @@ public class PhraseApprover : MonoBehaviour {
 	public static PhraseApprover Instance;
 
 	public PhraseAnimation phraseAnimator;
+	public Button RejectButton;
 
 	private string currentPhrase;
 
@@ -29,9 +30,22 @@ public class PhraseApprover : MonoBehaviour {
 		Instance = null;
 	}
 
+	void OnEnable () {
+		ToggleRejectButton(true);
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	
+	public void ToggleRejectButton (bool active) {
+		if (RejectButton != null) {
+			RejectButton.interactable = active;
+		} else {
+			Debug.LogWarning ("The reference to the reject button has not been set");
+		}
 	}
 
 	public void SetPhrase (string phrase) {

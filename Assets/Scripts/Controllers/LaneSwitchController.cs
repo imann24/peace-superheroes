@@ -60,7 +60,7 @@ public class LaneSwitchController : MonoBehaviour {
 
 	bool laneInBounds (int targetLane) {
 		return (targetLane >= 0 &&
-		        targetLane < Enum.GetNames(typeof(SpawnPoint)).Length);
+		        targetLane < LaneCount());
 	}
 
 	void subscribeEvents () {
@@ -75,5 +75,9 @@ public class LaneSwitchController : MonoBehaviour {
 		if (OnSwitchToLane != null) {
 			OnSwitchToLane(currentLane);
 		}
+	}
+
+	public static int LaneCount () {
+		return Enum.GetNames(typeof(SpawnPoint)).Length;
 	}
 }
