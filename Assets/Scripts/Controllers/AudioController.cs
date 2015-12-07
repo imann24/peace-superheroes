@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class AudioController : MonoBehaviour {
+public class AudioController : MonoBehaviour, System.IComparable<AudioController> {
 	public static AudioController Instance;
 
 	public AudioSource Music;
@@ -32,6 +32,9 @@ public class AudioController : MonoBehaviour {
 	public AudioClip Teleport;
 	public AudioClip PhraseCorrect;
 	public AudioClip PhraseIncorrect;
+
+	public static int Count = 0;
+	public int ID = Count++;
 
 	// ---------------------------------------------
 	void Awake () {
@@ -108,6 +111,10 @@ public class AudioController : MonoBehaviour {
 		}
 	}
 
+	public int CompareTo (AudioController other) {
+		return other.ID == this.ID ? 0 : -1;
+	}
+
 	private void toggleMuteMusic (bool muted) {
 		SetChannel(Channel.Music);
 		ToggleMuteCurrentClip(muted);
@@ -143,8 +150,9 @@ public class AudioController : MonoBehaviour {
 		PlayCurrentClip();
 	}
 
-	private void playPhraseSelectionSFX (bool approved) {
-		if (approved) {
+	private void playPhraseSelectionSFX (Quality phraseQuality) {
+		if (phraseQuality == Quality.Good ||
+		    phraseQuality == Quality.Great) {
 			playCorrectPhraseSFX();
 		} else {
 			playIncorrectPhraseSFX();

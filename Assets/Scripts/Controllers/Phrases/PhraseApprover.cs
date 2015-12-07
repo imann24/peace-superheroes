@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PhraseApprover : MonoBehaviour {
-	public delegate void PhraseChoiceAction (bool approved);
+	public delegate void PhraseChoiceAction (Quality quality = Quality.Good);
 	public static event PhraseChoiceAction OnPhraseChoice;
 
 	public static PhraseApprover Instance;
@@ -52,14 +52,15 @@ public class PhraseApprover : MonoBehaviour {
 	public void ApprovePhrase () {
 		phraseAnimator.StartAnimation(Direction.Up);
 		MovementController.Instance.Paused = false;
-		callPhraseChoiceEvent(true);
+		PhraseCollector.Instance.CollectPhrase(currentPhrase);
+		callPhraseChoiceEvent(Quality.Good);
 	}
 
 	public void RejectPhrase () {
 		phraseAnimator.StartAnimation(Direction.Down);
 		currentPhrase = null;
 		MovementController.Instance.Paused = false;
-		callPhraseChoiceEvent(false);
+		callPhraseChoiceEvent(Quality.Bad);
 	}
 
 	void subscribeEvents () {
@@ -70,9 +71,9 @@ public class PhraseApprover : MonoBehaviour {
 		PhraseAnimation.OnPhraseCollected -= GatherPhrase;
 	}
 
-	void callPhraseChoiceEvent (bool approved) {
+	void callPhraseChoiceEvent (Quality quality) {
 		if (OnPhraseChoice != null) {
-			OnPhraseChoice(approved);
+			OnPhraseChoice(quality);
 		}
 	}
 

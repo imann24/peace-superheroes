@@ -43,9 +43,13 @@ public class StoredPhraseController : MonoBehaviour {
 	private void setButtonAction (string phrase) {
 		button.onClick.AddListener(() => {
 			callPhraseSelectedEvent();
-			PhraseSelector.Instance.CloseSelector();
+			PhraseSelector.Instance.UsePhrase(phrase);
 			PhraseCollector.Instance.UsePhrase(phrase);
-			TrackerController.Instance.UsePhraseCorrectly();
+			TrackerController.Instance.UsePhrase(
+				PhraseValidator.GetPoints(
+					PhraseController.Instance.ScorePhrase(
+						phrase,
+						PhraseSelector.Instance.GetConflictPhrase())));
 		});
 	}
 

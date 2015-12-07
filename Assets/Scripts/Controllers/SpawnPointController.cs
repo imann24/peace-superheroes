@@ -29,9 +29,13 @@ public class SpawnPointController : MonoBehaviour {
 		return transform.position;
 	}
 
-	public static Vector3 GetSpawnPosition (SpawnPoint spawnPoint) {
+	public static Vector3 GetSpawnPosition (SpawnPoint spawnPoint, bool addOffset = false, float yOffset = -0.010f) {
 		if (All.ContainsKey(spawnPoint)) {
-			return All[spawnPoint].getPositon();
+			Vector3 position = All[spawnPoint].getPositon();
+			if (addOffset) {
+				position.y += yOffset;
+			}
+			return position;
 		} else {
 			return Global.ZERO_VECTOR;
 		}

@@ -61,16 +61,19 @@ public class TrackerController : MonoBehaviour {
 
 	public void collectPhrase (string phrase) {
 		score.CollectPhrase();
-		PhraseCollector.Instance.CollectPhrase(phrase);
 	}
 
 	public int PhraseCount () {
 		return score.PhraseCount;
 	}
 
-	public void UsePhraseCorrectly () {
-		score.SetScore(score.GetScore() + 1);
+	public void UsePhrase (int scoreChange) {
+		score.SetScore(score.GetScore() + scoreChange);
 		score.PhraseCount--;
+	}
+
+	public void AngryEncounterWithoutPhrase (int scoreLost = -1) {
+		score.SetScore(score.GetScore() + scoreLost);
 	}
 
 	void loadScreen (GameState gameState) {
@@ -85,13 +88,11 @@ public class TrackerController : MonoBehaviour {
 	}
 
 	void subscribeEvents () {
-		NPCSpawnController.OnNPCEncounter += scoreNPCEncounter;
 		Phrase.OnPhraseCollected += collectPhrase;
 		score.OnGameStateChange += loadScreen;
 	}
 
 	void unsubscribeEvents () {
-		NPCSpawnController.OnNPCEncounter -= scoreNPCEncounter;
 		Phrase.OnPhraseCollected -= collectPhrase;
 	}
 

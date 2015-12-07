@@ -4,19 +4,27 @@ using System.Collections;
 
 public class Util {
 
-	public static bool SingletonImplementation<T> (ref T staticInstance, T instance, GameObject associatedObject) {
+	public static bool SingletonImplementation<T> (ref T staticInstance, T instance, GameObject associatedObject)
+	where T : System.IComparable<T> {
 		if (staticInstance == null) {
 			UnityEngine.Object.DontDestroyOnLoad(associatedObject);
 			staticInstance = instance;
 			return true;
-		} else {
+		} else if (staticInstance.CompareTo(instance) != 0) {
 			UnityEngine.Object.Destroy(associatedObject);
+			return false;
+		} else {
 			return false;
 		}
 	}
 
-	public static void RemoveSingleton<T> (ref T staticInstance) {
-		staticInstance = default(T);
+	public static void RemoveSingleton<T> (ref T staticInstance, T instance)
+	where T :System.IComparable<T> {
+		if (staticInstance != null &&
+		    instance != null &&
+			staticInstance.CompareTo(instance) == 0) {
+				staticInstance = default(T);
+		}
 	}
 
 	public static string RemoveSpaces (string targetString) {

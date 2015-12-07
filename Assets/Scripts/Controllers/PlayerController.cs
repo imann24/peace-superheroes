@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, System.IComparable<PlayerController> {
 	public delegate void PlayerSetAction();
 	public static event PlayerSetAction OnPlayerSet;
 
@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour {
 	public static PlayerController Instance;
 	public float Speed = 2.0f;
 	public float TeleportDistance = 10f;
+
+	public static int Count = 0;
+	public int ID = Count++;
 	
 	private Rigidbody2D rigibody;
 	private Animator animator;
@@ -34,7 +37,7 @@ public class PlayerController : MonoBehaviour {
 			return _readyToTeleport;
 		}
 	}
-
+	
 	void Awake () {
 		Util.SingletonImplementation(ref Instance, this, gameObject);
 		callOnPlayerSet();
@@ -47,7 +50,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnDestroy () {
-		Util.RemoveSingleton(ref Instance);
+		Util.RemoveSingleton(ref Instance, this);
 	}
 	
 	// Update is called once per frame
@@ -91,6 +94,10 @@ public class PlayerController : MonoBehaviour {
 		this.teleportDirection = teleportDireciton;
 		ReadyToTeleport = !(this.teleportDirection == Direction.None);
 
+	}
+
+	public int CompareTo (PlayerController other) {
+		return other.ID == this.ID ? 0 : -1;
 	}
 
 	private void teleport () {

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b09fa9a224d034a98b88867ccf78b1f1
-timeCreated: 1447815264
+timeCreated: 1449484652
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -53,10 +53,10 @@ TextureImporter:
     - name: NiceCharacter_0
       rect:
         serializedVersion: 2
-        x: 616
-        y: 1631
-        width: 719
-        height: 1326
+        x: 606
+        y: 1504
+        width: 735
+        height: 1453
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

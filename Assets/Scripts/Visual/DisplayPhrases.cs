@@ -99,13 +99,20 @@ public class DisplayPhrases : MonoBehaviour {
 
 	void handleNPCEncounter (Emotion npcEmotion, string phrase) {
 		if (npcEmotion == Emotion.None) {
-			DisplayPhraseApprover(phrase);
-			MovementController.Instance.Paused = true;
-		} else if (npcEmotion == Emotion.Mad &&
-		           TrackerController.Instance.PhraseCount() > 0){
-			DisplayPhraseSelector(phrase);
-			Debug.Log("The conflict is: " + phrase);
-			MovementController.Instance.Paused = true;
+			if (PhraseValidator.CanAcceptPhrase(phrase)) {
+				DisplayPhraseApprover(phrase);
+				MovementController.Instance.Paused = true;
+			} else {
+				NotificationController.Instance.ShowNotification(
+					Notification.MaxPhrases);
+			}
+		} else if (npcEmotion == Emotion.Mad) {
+		    if (TrackerController.Instance.PhraseCount() > 0){
+				DisplayPhraseSelector(phrase);
+				MovementController.Instance.Paused = true;
+			} else {
+				TrackerController.Instance.AngryEncounterWithoutPhrase();
+			}
 		}
 	}
 

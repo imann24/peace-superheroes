@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScoreController : MonoBehaviour {
+public class ScoreController : MonoBehaviour, System.IComparable<ScoreController> {
 	public static ScoreController Instance;
 
 	public delegate void UpdateScoreAction (int currentScore);
@@ -30,6 +30,10 @@ public class ScoreController : MonoBehaviour {
 
 	public void SetMultiplier (int multiplier) {
 		this.multiplier = multiplier;
+	}
+
+	public int CompareTo (ScoreController other) {
+		return other == this ? 0 : -1;
 	}
 
 	void subscribeEvents () {

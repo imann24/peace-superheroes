@@ -45,8 +45,9 @@ public class AnimationController : MonoBehaviour {
 		animator = GetComponent<Animator>();
 	}
 
-	void handlePhraseSelection (bool phraseApproved) {
-		if (phraseApproved) {
+	void handlePhraseSelection (Quality quality) {
+		if (quality == Quality.Great ||
+		    quality == Quality.Good) {
 			playCelebrationAnimation();
 		}
 	}

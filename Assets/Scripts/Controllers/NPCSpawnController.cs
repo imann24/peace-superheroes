@@ -53,7 +53,7 @@ public class NPCSpawnController : MonoBehaviour {
 	GameObject spawnNPC (SpawnPoint spawnPoint) {
 		GameObject npc = (GameObject) Instantiate (
 			NPCPrefab,
-			SpawnPointController.GetSpawnPosition(spawnPoint),
+			SpawnPointController.GetSpawnPosition(spawnPoint, true),
 			Quaternion.identity);
 
 		setNPCReferences(
@@ -70,7 +70,7 @@ public class NPCSpawnController : MonoBehaviour {
 
 	void setNPCStartPosition (NPCController npc, SpawnPoint spawnPoint) {
 		npc.transform.position = 
-			SpawnPointController.GetSpawnPosition(spawnPoint);
+			SpawnPointController.GetSpawnPosition(spawnPoint, true);
 
 		npc.moveAcrossScreenToLeft();
 	}
@@ -84,7 +84,7 @@ public class NPCSpawnController : MonoBehaviour {
 		}
 	}
 
-	void spawnColumnOfNPCs () {
+	void spawnColumnOfNPCs (bool showResponsePhrases = false) {
 		for (int i = 0; i < spawnPools.Length; i++) {
 			SpawnPoint spawnPoint = (SpawnPoint) i;
 			NPCController npc;
@@ -104,10 +104,15 @@ public class NPCSpawnController : MonoBehaviour {
 
 			npc.Emotion = generateEmotion();
 			if (npc.Emotion == Emotion.None) {
-				DisplayPhrases.Instance.SpawnPhrase(npcObject, PhraseController.Instance.GetRandomPhrase(), 1.0f);
+				if (showResponsePhrases) {
+					DisplayPhrases.Instance.SpawnPhrase(npcObject, PhraseController.Instance.GetRandomPhrase(), 1.0f);
+				} else {
+
+					string phrase = PhraseController.Instance.GetRandomPhrase();
+					npc.Phrase = phrase;
+				}
 			} else if (npc.Emotion == Emotion.Mad) {
 				string phrase = PhraseController.Instance.GetRandomConflictPhrase();
-				Debug.Log("The conflict phrase: " + phrase);
 				npc.SetConflictPhrase(phrase);
 			}
 		}

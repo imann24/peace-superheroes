@@ -29,7 +29,10 @@ public class PhraseFeedback : MonoBehaviour {
 		Feedback.text = feedback;
 	}
 
-	public void DeactivateFeedback () {
+	public void DeactivateFeedback (bool unpauseGame = true) {
 		gameObject.SetActive(false);
+		if (unpauseGame) {
+			MovementController.Instance.Paused = false;
+		}
 	}
 }

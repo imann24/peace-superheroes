@@ -56,10 +56,12 @@ public class TrackerBarController : MonoBehaviour {
 		float timer = 0;
 
 		while (timer < maxTime) {
-			image.fillAmount = Mathf.Lerp(startLength,
-			                             targetLength,
-			                              timer);
-			timer += Time.deltaTime;
+			if (!MovementController.Instance.Paused) {
+				image.fillAmount = Mathf.Lerp(startLength,
+				                             targetLength,
+				                              timer);
+				timer += Time.deltaTime;
+			}
 			yield return new WaitForEndOfFrame();
 		}
 	}

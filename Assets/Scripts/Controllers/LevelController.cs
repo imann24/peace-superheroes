@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LevelController : MonoBehaviour {
+public class LevelController : MonoBehaviour, System.IComparable<LevelController> {
 	public static LevelController Instance;
 
 	public TextAsset [] LevelTemplates;
@@ -12,6 +12,9 @@ public class LevelController : MonoBehaviour {
 
 	private Level [] levels;
 	private GameObject currentLevel;
+
+	public static int Count = 0;
+	public int ID = Count++;
 
 	void Awake () {
 		Util.SingletonImplementation(
@@ -35,6 +38,10 @@ public class LevelController : MonoBehaviour {
 	void Update () {
 	
 	
+	}
+
+	public int CompareTo (LevelController other) {
+		return other.ID == this.ID ? 0 : -1;
 	}
 
 	private void initializeFields () {

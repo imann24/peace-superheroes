@@ -9,10 +9,12 @@ public class PhraseSelector : MonoBehaviour {
 
 	public GameObject StoredPhrasePrefab;
 	public GameObject FeedbackCanvas;
+	public ScrollRect scrollRect;
 	public Transform PhraseHolder;
 	public Text ConflictPhrase;
 	public float cellHeight = 200;
 	RectTransform rectTransform;
+
 
 	void Awake () {
 		Instance = this;
@@ -32,15 +34,29 @@ public class PhraseSelector : MonoBehaviour {
 	
 	}
 
-	public void CloseSelector () {
-		callPhraseChosenEvent(true);
+	void OnEnable () {
+		ResetScrollRectPosition();
+	}
+
+	public void UsePhrase (string response) {
+		Quality quality = PhraseController.Instance.ScorePhrase(response, ConflictPhrase.text);
+		callPhraseChosenEvent(quality);
+		string feedback = PhraseValidator.GetFeedback(quality);
+		CloseSelector(feedback);
+	}
+
+
+	public void CloseSelector (string feedback) {
 		gameObject.SetActive(false);
-		MovementController.Instance.Paused = false;
-		activateFeedback("This is the feedback you're getting");
+		activateFeedback(feedback);
 	}
 
 	public void SetConflictPhrase (string phrase) {
 		ConflictPhrase.text = phrase;
+	}
+
+	public string GetConflictPhrase () {
+		return ConflictPhrase.text;
 	}
 
 	public void SpawnPhrases (string [] phrases) {
@@ -51,6 +67,13 @@ public class PhraseSelector : MonoBehaviour {
 		PhraseHolder.GetComponent<RectTransform>().sizeDelta = new Vector2 (
 			PhraseHolder.GetComponent<RectTransform>().sizeDelta.x,
 			cellHeight * phrases.Length);
+	}
+
+	// http://answers.unity3d.com/questions/801380/force-scrollbar-to-scroll-down-with-scrollrect.html
+	public void ResetScrollRectPosition () {
+		Canvas.ForceUpdateCanvases();
+		scrollRect.velocity = new Vector2 (0, -1000);
+		Canvas.ForceUpdateCanvases();
 	}
 
 	private void activateFeedback (string feedback) {
@@ -81,9 +104,9 @@ public class PhraseSelector : MonoBehaviour {
 		rectTransform = GetComponent<RectTransform>();
 	}
 
-	private void callPhraseChosenEvent (bool phraseApproved) {
+	private void callPhraseChosenEvent (Quality quality) {
 		if (OnPhraseChoice != null) {
-			OnPhraseChoice(phraseApproved);
+			OnPhraseChoice(quality);
 		}
 	}
 

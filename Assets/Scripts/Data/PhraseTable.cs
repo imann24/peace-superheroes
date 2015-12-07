@@ -5,6 +5,7 @@ public class PhraseTable {
 	private string [] responsePhrases;
 	private string [] conflictPhrases;
 	private int [,] phraseRatings;
+	private static int DefaultRating = 1;
 
 	public PhraseTable (string [] responsePhrases, string [] conflictPhrases, int[,] phraseRatings) {
 		this.responsePhrases = responsePhrases;
@@ -22,10 +23,15 @@ public class PhraseTable {
 	}
 
 	private int getRatingFromPhrases (string response, string conflict) {
-		return phraseRatings[
-		                     Array.IndexOf(responsePhrases, response),
-		                     Array.IndexOf(conflictPhrases, conflict)
-		                     ];
+		if (!Array.Exists(responsePhrases, element => element == response) ||
+		    !Array.Exists(conflictPhrases, element => element == conflict)) {
+			return DefaultRating;
+		} else {
+			return phraseRatings[
+			                     Array.IndexOf(responsePhrases, response),
+			                     Array.IndexOf(conflictPhrases, conflict)
+			                     ];
+		}
 	}
 
 	public override string ToString ()

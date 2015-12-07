@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PhraseCollector : MonoBehaviour {
+public class PhraseCollector : MonoBehaviour, System.IComparable<PhraseCollector> {
 
 	List<string> collectionOfPhrases = new List<string>();
 	public static PhraseCollector Instance;
+
+	public static int Count = 0;
+	public int ID = Count++;
 
 	void Awake () {
 		Util.SingletonImplementation (
@@ -17,12 +20,17 @@ public class PhraseCollector : MonoBehaviour {
 	}
 
 	void OnDestroy () {
-		Util.RemoveSingleton(ref Instance);
+		Util.RemoveSingleton(ref Instance, this);
 		unsubscribeReferences();
 	}
 
 	public void CollectPhrase (string phrase) {
-		collectionOfPhrases.Add(phrase);
+		if (string.IsNullOrEmpty(phrase)) {
+			collectionOfPhrases.Add(
+				PhraseController.Instance.GetRandomPhrase());
+		} else {
+			collectionOfPhrases.Add(phrase);
+		}
 	}
 
 	public string UseRandomPhrase () {
@@ -45,7 +53,11 @@ public class PhraseCollector : MonoBehaviour {
 	}
 
 	public void DiscardAllPhrases () {
-			collectionOfPhrases.Clear();
+		collectionOfPhrases.Clear();
+	}
+
+	public int CompareTo (PhraseCollector other) {
+		return other.ID == this.ID ? 0 : -1;
 	}
 
 	private void subscribeReferences () {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PhraseController : MonoBehaviour {
+public class PhraseController : MonoBehaviour, System.IComparable<PhraseController> {
 	public static PhraseController Instance;
 
 	public delegate string PhraseGenerationAction();
@@ -21,10 +21,13 @@ public class PhraseController : MonoBehaviour {
 
 	private Queue <string> pseudoRandomPhraseSpawnOrder;
 	private Queue <string> pseudoRandomConflictPhraseSpawnOrder;
+
+	public static int Count = 0;
+	public int ID = Count++;
+
 	// Use this for initialization
 	void Awake () {
 		initialize();
-
 	}
 
 	public string GetRandomPhrase () {
@@ -68,6 +71,10 @@ public class PhraseController : MonoBehaviour {
 
 	public Quality ScorePhrase (string response, string conflict) {
 		return phraseTable.GetRating(response, conflict);
+	}
+
+	public int CompareTo (PhraseController other) {
+		return other.ID == this.ID? 0 : -1;
 	}
 
 	private void addValidPhrases () {
