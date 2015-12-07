@@ -102,6 +102,8 @@ public class NPCController : MonoBehaviour {
 		StartCoroutine(colorCoroutine);
 	}
 
+
+
 	void OnTriggerEnter2D (Collider2D collider) {
 
 		switch (collider.gameObject.tag) {
@@ -213,7 +215,11 @@ public class NPCController : MonoBehaviour {
 	public void SetSpawnPoint (SpawnPoint spawnPoint) {
 		this.spawnPoint = spawnPoint;
 	}
-	
+
+	public void SetConflictPhrase (string phrase) {
+		Phrase = Phrase;
+	}
+
 	public void SpawnPhrase (float xOffset = 0.25f) {
 		destroyCurrentPhrase();
 		GameObject phrase = (GameObject)

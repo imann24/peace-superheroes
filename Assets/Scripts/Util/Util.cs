@@ -131,4 +131,54 @@ public class Util {
 			UnityEngine.Object.Destroy(transform.GetChild(i).gameObject);
 		}
 	}
+
+	public static string TwoDimensionArrayToString<T> (T[,] array) {
+		string arrayAsString = "";
+
+
+		for (int y = 0; y < array.GetLength(1); y++){
+			for (int x = 0; x < array.GetLength(0); x++) {
+				arrayAsString += array[x, y];
+			}
+
+			arrayAsString += "\n";
+		}
+
+		return arrayAsString;
+	}
+
+	public static bool IsSquareJaggedArray<T> (T[][] source) {
+		int same = source[0].Length;
+
+		for (int i = 1; i < source.Length; i++) {
+			if (same != source[i].Length) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// Jagged Array must be square
+	public static T[,] To2DArray <T>(T[][] source) {
+		if (!IsSquareJaggedArray(source)) {
+			Debug.LogError("Jagged array is not square");
+			return null;
+		}
+
+		T[,] output = new T[source.Length, source[0].Length];
+
+		for (int x = 0; x < source.Length; x++) {
+			for (int y = 0; y < source[0].Length; y++) {
+				output[x,y] = source[x][y];
+			}
+		}
+
+		return output;
+	
+	}
+
+	public static T RandomElement<T> (T[] source) {
+		return source[UnityEngine.Random.Range(0, source.Length)];
+	}
 }

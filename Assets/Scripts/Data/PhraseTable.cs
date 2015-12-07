@@ -27,4 +27,30 @@ public class PhraseTable {
 		                     Array.IndexOf(conflictPhrases, conflict)
 		                     ];
 	}
+
+	public override string ToString ()
+	{
+		string phraseTableAsString = "Conflicts:\n" + String.Join(", ", conflictPhrases) + "\n";
+
+		phraseTableAsString += "Responses:\n" + string.Join(", ", responsePhrases) + "\n";
+
+		phraseTableAsString += "Ratings:\n" + Util.TwoDimensionArrayToString(phraseRatings);
+		return phraseTableAsString;
+	}
+
+	public string [] GetResponses () {
+		return responsePhrases;
+	}
+
+	public string GetRandomResponse () {
+		return Util.RandomElement(responsePhrases);
+	}
+
+	public string [] GetConflicts () {
+		return conflictPhrases;
+	}
+
+	public string GetRandomConflict () {
+		return Util.RandomElement(conflictPhrases);
+	}
 }
