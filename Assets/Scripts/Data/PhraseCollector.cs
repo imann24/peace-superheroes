@@ -8,7 +8,7 @@ public class PhraseCollector : MonoBehaviour, System.IComparable<PhraseCollector
 	public static PhraseCollector Instance;
 
 	public static int Count = 0;
-	public int ID = Count++;
+	private int ID = Count++;
 
 	void Awake () {
 		Util.SingletonImplementation (

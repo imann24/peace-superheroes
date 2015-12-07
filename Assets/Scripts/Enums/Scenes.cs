@@ -2,5 +2,6 @@
 	Start,
 	Tutorial,
 	Prototype,
-	Credits
+	Credits, 
+	Website
 }

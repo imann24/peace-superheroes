@@ -48,6 +48,8 @@ public class MovementController : MonoBehaviour {
 	}
 
 	public void TogglePause (bool paused) {
-		Paused = paused;
+		if (Paused != paused) {
+			Paused = paused;
+		}
 	}
 }

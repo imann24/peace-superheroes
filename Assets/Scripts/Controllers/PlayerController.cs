@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, System.IComparable<PlayerControll
 	public float TeleportDistance = 10f;
 
 	public static int Count = 0;
-	public int ID = Count++;
+	private int ID = Count++;
 	
 	private Rigidbody2D rigibody;
 	private Animator animator;

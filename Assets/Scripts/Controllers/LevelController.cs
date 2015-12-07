@@ -14,7 +14,7 @@ public class LevelController : MonoBehaviour, System.IComparable<LevelController
 	private GameObject currentLevel;
 
 	public static int Count = 0;
-	public int ID = Count++;
+	private int ID = Count++;
 
 	void Awake () {
 		Util.SingletonImplementation(

@@ -23,7 +23,7 @@ public class PhraseController : MonoBehaviour, System.IComparable<PhraseControll
 	private Queue <string> pseudoRandomConflictPhraseSpawnOrder;
 
 	public static int Count = 0;
-	public int ID = Count++;
+	private int ID = Count++;
 
 	// Use this for initialization
 	void Awake () {

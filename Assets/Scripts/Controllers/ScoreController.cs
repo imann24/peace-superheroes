@@ -11,6 +11,9 @@ public class ScoreController : MonoBehaviour, System.IComparable<ScoreController
 	private int score = 0;
 	private int defaultScoreIncrease = 10;
 
+	public static int Count = 0;
+	private int ID = Count++;
+
 	void Awake () {
 		Util.SingletonImplementation(ref Instance, this, gameObject);
 	}
@@ -33,7 +36,7 @@ public class ScoreController : MonoBehaviour, System.IComparable<ScoreController
 	}
 
 	public int CompareTo (ScoreController other) {
-		return other == this ? 0 : -1;
+		return other.ID == this.ID ? 0 : -1;
 	}
 
 	void subscribeEvents () {
