@@ -22,7 +22,7 @@ public class SwipeController : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		if (MovementController.Instance.Paused) {
+		if (MovementController.Instance.Paused || !Tutorial.CanMove()) {
 			return;
 		}
 
