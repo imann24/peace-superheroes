@@ -2,9 +2,12 @@
 using System.Collections;
 
 public class TrackerController : MonoBehaviour {
-	public delegate void GameEndAction();
+	public delegate void GameEndAction(bool victory);
 	public static event GameEndAction OnGameEnd;
 
+	public delegate void CharacterReaction(Quality quality);
+	public static event CharacterReaction 
+		OnCharacterReaction;
 	public static TrackerController Instance;
 
 	public int startingValue = 0;
@@ -74,6 +77,8 @@ public class TrackerController : MonoBehaviour {
 
 	public void AngryEncounterWithoutPhrase (int scoreLost = -1) {
 		score.SetScore(score.GetScore() + scoreLost);
+		callCharacterReactionEvent(Quality.Bad);
+
 	}
 
 	void loadScreen (GameState gameState) {
@@ -82,7 +87,7 @@ public class TrackerController : MonoBehaviour {
 
 		if (gameState == GameState.GameLose ||
 		    gameState == GameState.GameWin) {
-			callGameEndEvent();
+			callGameEndEvent(gameState == GameState.GameWin);
 			MovementController.Instance.Paused = true;
 		}
 	}
@@ -96,9 +101,15 @@ public class TrackerController : MonoBehaviour {
 		Phrase.OnPhraseCollected -= collectPhrase;
 	}
 
-	void callGameEndEvent () {
+	void callGameEndEvent (bool victory) {
 		if (OnGameEnd != null) {
-			OnGameEnd();
+			OnGameEnd(victory);
+		}
+	}
+
+	void callCharacterReactionEvent (Quality quality) {
+		if (OnCharacterReaction != null) {
+			OnCharacterReaction(quality);
 		}
 	}
 }

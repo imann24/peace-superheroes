@@ -28,12 +28,14 @@ public class AnimationController : MonoBehaviour {
 
 	void subscribeEvents () {
 		MovementController.OnGameStateChanged += toggleAnimation;
-		PhraseSelector.OnPhraseChoice += handlePhraseSelection;
+		PhraseFeedback.OnFeedbackClosed += handlePhraseSelection;
+		TrackerController.OnCharacterReaction += handlePhraseSelection;
 	}
 
 	void unsubscribeEvents () {
 		MovementController.OnGameStateChanged -= toggleAnimation;
-		PhraseSelector.OnPhraseChoice -= handlePhraseSelection;
+		PhraseFeedback.OnFeedbackClosed -= handlePhraseSelection;
+		TrackerController.OnCharacterReaction -= handlePhraseSelection;
 	}
 
 	void toggleAnimation (GameState newState) {

@@ -248,26 +248,42 @@ public class AudioController : MonoBehaviour, System.IComparable<AudioController
 	private void handleGameStateChange (GameState state) {
 		if (!Muted) {
 			SetChannel(Channel.SFX2);
-			ToggleMuteCurrentClip(state == GameState.Game);
+			if (currentClip() == Footsteps) {
+				ToggleMuteCurrentClip(state != GameState.Game);
+			}
+
+			if (state == GameState.Game ||
+			    state == GameState.GamePaused ||
+			    state == GameState.Start) {
+				playButtonPressSFX();
+			}
 		}
+	}
+
+	private void handleGameEnd (bool victory) {
+		SetChannel(Channel.SFX2);
+		ToggleMuteCurrentClip(false);
+		ToggleLoopCurrentClip(false);
+		SetClip(victory ? WinGame : LoseGame);
+		PlayCurrentClip();
 	}
 
 	void SubscribeEvents () {
 		LaneSwitchController.OnSwitchToLane += playTeleportSFX;
 		PhraseApprover.OnPhraseChoice += playPhraseCollectedSFX;
 		PhraseSelector.OnPhraseChoice += playPhraseSelectionSFX;
-		MovementController.OnGameStateChanged += (newState) => playButtonPressSFX();
 		SceneController.OnSceneChange += (scene) => playButtonPressSFX();
 		MovementController.OnGameStateChanged += handleGameStateChange; 
+		TrackerController.OnGameEnd += handleGameEnd;
 	}
 
 	void UnsubscribeEvents () {
 		LaneSwitchController.OnSwitchToLane -= playTeleportSFX;
 		PhraseApprover.OnPhraseChoice -= playPhraseCollectedSFX;
 		PhraseSelector.OnPhraseChoice -= playPhraseSelectionSFX;
-		MovementController.OnGameStateChanged -= (newState) => playButtonPressSFX();
 		SceneController.OnSceneChange -= (scene) => playButtonPressSFX();
 		MovementController.OnGameStateChanged -= handleGameStateChange;
+		TrackerController.OnGameEnd -= handleGameEnd;
 	}
 
 }

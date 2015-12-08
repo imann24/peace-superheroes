@@ -3,8 +3,12 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PhraseFeedback : MonoBehaviour {
+	public delegate void FeedbackClosedAction(Quality quality);
+	public static event FeedbackClosedAction OnFeedbackClosed;
 	public static PhraseFeedback Instance;
 	public Text Feedback;
+
+	private Quality qualityOfLastResponse;
 
 	void Awake () {
 		Instance = this;
@@ -24,15 +28,28 @@ public class PhraseFeedback : MonoBehaviour {
 	
 	}
 
-	public void ActivateFeedback (string feedback) {
+	public void ActivateFeedback (string feedback, Quality quality) {
 		gameObject.SetActive(true);
 		Feedback.text = feedback;
+		setQualityOfLastResponse(quality);
 	}
 
 	public void DeactivateFeedback (bool unpauseGame = true) {
 		gameObject.SetActive(false);
 		if (unpauseGame) {
 			MovementController.Instance.Paused = false;
+
+		}
+		callFeedbackClosedEvent();
+	}
+
+	private void setQualityOfLastResponse (Quality quality) {
+		qualityOfLastResponse = quality;
+	}
+
+	private void callFeedbackClosedEvent () {
+		if (OnFeedbackClosed != null) {
+			OnFeedbackClosed(qualityOfLastResponse);
 		}
 	}
 }

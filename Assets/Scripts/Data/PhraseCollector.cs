@@ -24,6 +24,10 @@ public class PhraseCollector : MonoBehaviour, System.IComparable<PhraseCollector
 		unsubscribeReferences();
 	}
 
+	void OnLevelWasLoaded (int level) {
+		DiscardAllPhrases();
+	}
+
 	public void CollectPhrase (string phrase) {
 		if (string.IsNullOrEmpty(phrase)) {
 			collectionOfPhrases.Add(
@@ -52,7 +56,7 @@ public class PhraseCollector : MonoBehaviour, System.IComparable<PhraseCollector
 		return collectionOfPhrases.ToArray();
 	}
 
-	public void DiscardAllPhrases () {
+	public void DiscardAllPhrases (bool victory = true) {
 		collectionOfPhrases.Clear();
 	}
 

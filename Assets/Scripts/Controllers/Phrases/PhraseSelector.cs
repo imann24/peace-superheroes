@@ -51,13 +51,13 @@ public class PhraseSelector : MonoBehaviour {
 				npc.Emotion = Emotion.Calm;
 			}
 		}
-		CloseSelector(feedback);
+		CloseSelector(feedback, quality);
 	}
 
 
-	public void CloseSelector (string feedback) {
+	public void CloseSelector (string feedback, Quality quality) {
 		gameObject.SetActive(false);
-		activateFeedback(feedback);
+		activateFeedback(feedback, quality);
 	}
 
 	public void SetConflictPhrase (string phrase) {
@@ -89,9 +89,10 @@ public class PhraseSelector : MonoBehaviour {
 		this.npc = npc;
 	}
 
-	private void activateFeedback (string feedback) {
+	private void activateFeedback (string feedback, Quality qualityOfResponse) {
 		FeedbackCanvas.SetActive(true);
-		PhraseFeedback.Instance.ActivateFeedback(feedback);
+		PhraseFeedback.Instance.ActivateFeedback(feedback,
+		                                         qualityOfResponse);
 	}
 
 	private GameObject SpawnPhrase () {
