@@ -65,6 +65,23 @@ public class NPCSpawnController : MonoBehaviour {
 		this.spawning = spawning;
 	}
 
+	public GameObject SpawnNPC (SpawnPoint spawnPoint,
+	                      Emotion emotion,
+	                      string phrase,
+	                      NPCController.CollidedWithPlayerAction collidedListener) {
+		GameObject npcObject = spawnNPC(spawnPoint);
+		NPCController npc = npcObject.GetComponent<NPCController>();
+		npc.Emotion = emotion;
+		if (emotion == Emotion.Mad) {
+			npc.SetConflictPhrase(phrase);
+		} else {
+			npc.Phrase = phrase;
+		}
+		npc.OnCollidedWithPlayer += collidedListener;
+		return npcObject;
+	}
+
+
 	GameObject spawnNPC (SpawnPoint spawnPoint) {
 		GameObject npc = (GameObject) Instantiate (
 			NPCPrefab,

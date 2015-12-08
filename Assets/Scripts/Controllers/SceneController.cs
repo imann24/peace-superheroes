@@ -21,8 +21,8 @@ public class SceneController: MonoBehaviour {
 	}
 
 	public void LoadTutorial () {
-		callSceneChangeAction(Scenes.Tutorial);
-		Tutorial.ToggleTutorialSeen(false);
+		callSceneChangeAction(Scenes.Prototype);
+		Tutorial.ForceShowTutorial();
 		Application.LoadLevel((int) Scenes.Prototype);
 	}
 

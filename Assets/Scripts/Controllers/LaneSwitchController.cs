@@ -17,7 +17,7 @@ public class LaneSwitchController : MonoBehaviour {
 	}
 
 	void Update () {
-		if (MovementController.Instance.Paused) {
+		if (MovementController.Instance.Paused || !Tutorial.CanMove()) {
 			return;
 		}
 
