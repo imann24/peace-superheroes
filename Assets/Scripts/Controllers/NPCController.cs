@@ -29,12 +29,15 @@ public class NPCController : MonoBehaviour {
 
 	private string _phrase;
 
+	private bool phraseUsed = false;
+
 	public string Phrase {
 		get {
 			return _phrase;
 		}
 
 		set {
+			phraseUsed = false;
 			_phrase = value;
 		}
 	}
@@ -108,7 +111,10 @@ public class NPCController : MonoBehaviour {
 
 		switch (collider.gameObject.tag) {
 			case Tags.PLAYER:
-				callCollidedWithPlayerEvent();
+				if (!phraseUsed) {
+					phraseUsed = true;
+					callCollidedWithPlayerEvent();
+				}
 				break;
 			default:
 				break;

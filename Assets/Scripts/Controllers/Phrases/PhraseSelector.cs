@@ -14,7 +14,7 @@ public class PhraseSelector : MonoBehaviour {
 	public Text ConflictPhrase;
 	public float cellHeight = 200;
 	RectTransform rectTransform;
-
+	private int phraseCount;
 	private NPCController npc;
 
 	void Awake () {
@@ -73,9 +73,15 @@ public class PhraseSelector : MonoBehaviour {
 		for (int i = 0; i < phrases.Length; i++) {
 			setPhrase(SpawnPhrase(), phrases[i]);
 		}
+
+		phraseCount = phrases.Length;
+		ScaleScrollRect();
+	}
+
+	public void ScaleScrollRect () {
 		PhraseHolder.GetComponent<RectTransform>().sizeDelta = new Vector2 (
 			PhraseHolder.GetComponent<RectTransform>().sizeDelta.x,
-			cellHeight * phrases.Length);
+			(cellHeight * phraseCount)/3.0f);
 	}
 
 	// http://answers.unity3d.com/questions/801380/force-scrollbar-to-scroll-down-with-scrollrect.html
