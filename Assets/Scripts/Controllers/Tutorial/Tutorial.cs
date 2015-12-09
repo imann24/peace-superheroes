@@ -34,8 +34,8 @@ public class Tutorial : MonoBehaviour {
 	private int SwipeUpIndex = 7;
 	private int SwipeDownIndex = 8;
 
-	private int responsePhraseIndex = 8;
-	private int conflictPhraseIndex = 1;
+	private int responsePhraseIndex = 3;
+	private int conflictPhraseIndex = 4;
 
 	private int angryNPCSpawnIndex = 3;
 	private int mentorNPCSpawnIndex = 1;
@@ -129,6 +129,11 @@ public class Tutorial : MonoBehaviour {
 		if (TutorialSlides[tutorialIndex] != null) {
 			TutorialSlides[tutorialIndex].SetActive(true);
 		}
+	}
+
+	public static bool Playing () {
+		return Instance != null &&
+			Instance.TutorialPlaying;
 	}
 
 	public static void ToggleTutorialSeen (bool tutorialSeen) {

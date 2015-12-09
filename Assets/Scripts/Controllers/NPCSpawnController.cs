@@ -160,7 +160,10 @@ public class NPCSpawnController : MonoBehaviour {
 
 	void subscribeToNPCEvents (NPCController npc) {
 		npc.OnCollidedWithPlayer += callNPCEncounterEvent;
-		npc.OnOffscreen += handleNPCOffscreen;
+
+		if (!Tutorial.Playing()) {
+			npc.OnOffscreen += handleNPCOffscreen;
+		}
 	}
 
 	void spawnOnTimer () {
