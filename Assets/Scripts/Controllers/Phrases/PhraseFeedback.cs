@@ -8,6 +8,10 @@ public class PhraseFeedback : MonoBehaviour {
 	public static PhraseFeedback Instance;
 	public Text Feedback;
 
+	public Image SpeechBubble;
+	public Color GoodFeedbackColor;
+	public Color BadFeedbackColor;
+
 	private Quality qualityOfLastResponse;
 
 	void Awake () {
@@ -32,6 +36,7 @@ public class PhraseFeedback : MonoBehaviour {
 		gameObject.SetActive(true);
 		Feedback.text = feedback;
 		setQualityOfLastResponse(quality);
+		setFeedbackColor(quality);
 	}
 
 	public void DeactivateFeedback (bool unpauseGame = true) {
@@ -50,6 +55,38 @@ public class PhraseFeedback : MonoBehaviour {
 	private void callFeedbackClosedEvent () {
 		if (OnFeedbackClosed != null) {
 			OnFeedbackClosed(qualityOfLastResponse);
+		}
+	}
+
+	private void setFeedbackColor (Quality quality) {
+		if (quality == Quality.Good ||
+		    quality == Quality.Great) {
+
+			StartCoroutine(LerpColor(
+				BadFeedbackColor,
+				GoodFeedbackColor));
+
+
+		} else if (quality == Quality.Bad) {
+
+			SpeechBubble.color = BadFeedbackColor;
+
+		}
+	}
+
+	IEnumerator LerpColor (Color startColor, Color targetColor, float speed = 0.5f) {
+		float timer = 0;
+
+		while (timer <= 1) {
+
+			SpeechBubble.color = Color.Lerp(
+				startColor,
+				targetColor,
+				timer);
+
+			timer += Time.deltaTime * speed;
+
+			yield return new WaitForEndOfFrame();
 		}
 	}
 }
